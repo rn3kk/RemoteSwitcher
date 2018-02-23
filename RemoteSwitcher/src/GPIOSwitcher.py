@@ -56,10 +56,10 @@ class GPIOSwitcher:
             self.__outputPinsList.append(OutputPin(name, gpio_number, autoOff))
 
         inputPinsList = jsonPins["pins_input"]
-        for pin in outputPinsList:  # load output pins
+        for pin in inputPinsList:  # load output pins
             name = pin.get("name")
             gpio_number = pin.get("gpio_number")
-            self.__outputPinsList.append(Pin(name, gpio_number))
+            self.__inputPinsList.append(Pin(name, gpio_number))
 
     def getGpioState(self):
         return 0
