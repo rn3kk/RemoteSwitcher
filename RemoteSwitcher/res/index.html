@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <input type="checkbox" name="cb1" id="check1" value="1" checked />
+    <input type="checkbox" name="cb2" id="check2" value="2" />
+    <input type="checkbox" name="cb3" id="check3" value="3" />
+
+    <script type="text/JavaScript">
+
+
+        var socket = new WebSocket("ws://127.0.0.1:8080/data");
+        function checkWebSocket() {
+            console.log("page load")
+
+        };
+
+        socket.onopen = function() {
+            console.log("Соединение установлено.");
+        };
+
+        socket.onclose = function(event) {
+            if (event.wasClean) {
+                 console.log('Соединение закрыто чисто');
+            } else {
+                 console.log('Обрыв соединения'); // например, "убит" процесс сервера
+            }
+            console.log('Код: ' + event.code + ' причина: ' + event.reason);
+        };
+
+        socket.onmessage = function(event) {
+            console.log("Получены данные " + event.data);
+        };
+
+        socket.onerror = function(error) {
+            console.log("Ошибка " + error.message);
+        };
+
+        window.onload = checkWebSocket
+
+        function gpioState(){
+          var jsonRequestStr = {"request":"getGpioState"};
+          var strJson = JSON.stringify(jsonRequestStr);
+          socket.send(strJson);
+        }
+        setInterval("gpioState()",2000);
+
+    </script>
+
+</head>
+<body>
+
+
+</body>
+</html>

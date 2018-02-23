@@ -1,0 +1,12 @@
+{
+    "pins": [
+        { "name":"10m", "number":"1" },
+        { "name":"15m", "number":"2" },
+        { "name":"20m", "number":"3" },
+        { "name":"30m", "number":"4" },
+        { "name":"40m", "number":"5" },
+        { "name":"80m", "number":"6" },
+        { "name":"160m", "number":"7" },
+        { "name":"Усилиьель Р-140", "number":"8" }
+    ]
+}
