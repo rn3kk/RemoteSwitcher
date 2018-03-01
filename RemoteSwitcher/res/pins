@@ -1,20 +1,19 @@
 {
-    "pins_output": [
-        { "name":"10m", "gpio_number":"1" },
-        { "name":"15m", "gpio_number":"2" },
-        { "name":"20m", "gpio_number":"3" },
-        { "name":"30m", "gpio_number":"4" },
-        { "name":"40m", "gpio_number":"5" },
-        { "name":"80m", "gpio_number":"6" },
-        { "name":"160m", "gpio_number":"7" },
-        { "name":"Усилитель Р-140", "gpio_number":"8" },
-        { "name":"Усилитель сбросить защиту", "gpio_number":"8", "auto_off":1000 }
-
+    "pinsOutput": [
+        { "name":"10m", "gpioNumber":"1", "auto_off":0, "state":false },
+        { "name":"15m", "gpioNumber":"2", "auto_off":0, "state":false },
+        { "name":"20m", "gpioNumber":"3", "auto_off":0, "state":false },
+        { "name":"30m", "gpioNumber":"4", "auto_off":0, "state":false },
+        { "name":"40m", "gpioNumber":"5", "auto_off":0, "state":false },
+        { "name":"80m", "gpioNumber":"6", "auto_off":0, "state":false },
+        { "name":"160m", "gpioNumber":"7", "auto_off":0, "state":false },
+        { "name":"Ampl P-140", "gpioNumber":"8", "auto_off":0, "state":false },
+        { "name":"Reset protection", "gpioNumber":"8", "auto_off":1000, "state":false }
     ],
 
-    "pins_input": [
-        { "name":"Р-140 готов к работе", "gpio_number":"9" },
-        { "name":"Р-140 сработала защита", "gpio_number":"10" },
-        { "name":"Пропала сеть 220В", "gpio_number":"11" }
+    "pinsInput": [
+        { "name":"P-140 is ready", "gpioNumber":"9" },
+        { "name":"P-140 protection", "gpioNumber":"10" },
+        { "name":"Power 220B is off", "gpioNumber":"11" }
     ]
 }

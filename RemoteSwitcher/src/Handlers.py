@@ -1,6 +1,7 @@
 from threading import Thread
+from GPIOController import GPIOController
 import socket
-import hashlib, base64, time
+import json
 
 import eventlet
 from eventlet import wsgi
@@ -9,7 +10,9 @@ from eventlet.support import six
 
 # demo app
 import os
-import random
+
+REQUEST = "request"
+GET_GPIO_STATE = "getGpioState"
 
 class RequestType:
     REQUEST_IS_UNKNOWN=0
@@ -62,6 +65,11 @@ def handle(ws):
             print ("WebSocket client is disconected!")
             break
         print(m);
+        jsonReq = json.loads(m)
+        request = jsonReq[REQUEST]
+        if request == GET_GPIO_STATE:
+            state = GPIOController.getInstance().getGpioState()
+            ws.send(state)
         eventlet.sleep(0.1)
 
 def dispatch(environ, start_response):

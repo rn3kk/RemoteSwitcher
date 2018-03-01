@@ -10,10 +10,23 @@
     <script type="text/JavaScript">
 
 
+        function receiveGPIOState(jsonState) {
+            for (var i = 0; i < jsonState.pinsOutput.length; i++) {
+                var pin = jsonState.pinsOutput[i]
+                console.log(pin.name);
+            }
+            console.log('\n')
+            for (var i = 0; i < jsonState.pinsInput.length; i++) {
+                var pin = jsonState.pinsInput[i]
+                console.log(pin.name);
+            }
+            console.log('\n')
+
+        };
+
         var socket = new WebSocket("ws://127.0.0.1:8080/data");
         function checkWebSocket() {
             console.log("page load")
-
         };
 
         socket.onopen = function() {
@@ -30,7 +43,14 @@
         };
 
         socket.onmessage = function(event) {
-            console.log("Получены данные " + event.data);
+            var blob = event.data;
+
+            var reader = new FileReader();
+            reader.onloadend = function() {
+               var jsonObj = JSON.parse(reader.result)
+               receiveGPIOState(jsonObj)
+            };
+            reader.readAsBinaryString(blob)
         };
 
         socket.onerror = function(error) {
