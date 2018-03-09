@@ -12,6 +12,13 @@ NAME = "name"
 GPIO_NUMBER = "gpioNumber"
 AUTO_OFF = "auto_off"
 STATE = "state"
+TYPE = "type"
+REQUEST = "request"
+GET_GPIO_STATE = "getGpioState"
+CHANGE_GPIO_STATE = "changeGpioState"
+REQUEST_RESULT = "result"
+TRUE = "true"
+FALSE = "false"
 
 class PinType(Enum):
     input=1
@@ -43,6 +50,7 @@ class Pin: #Base class for output pin
 
 class OutputPin(Pin):
     __autoOffTime = 0
+    __timeLeft = 0
 
     def __init__(self, pinName, pinNumber, autoOffTime = 0, pinState = False):
         super(OutputPin, self).__init__(pinName, pinNumber)
@@ -89,8 +97,9 @@ class GPIOController(Thread):
             self.__inputPinsList.append(Pin(name, gpio_number))
 
     def run(self):
-        while True:
+        while False:
            time.sleep(1)
+
 
 
     def getGpioState(self):
@@ -103,7 +112,16 @@ class GPIOController(Thread):
             input.append(str)
 
         response = {}
+        response[TYPE] = GET_GPIO_STATE
+        response[REQUEST_RESULT] = TRUE
         response[PINS_OUTPUT] = output
         response[PINS_INPUT] = input
+        response = json.dumps(response)
+        return response
+
+    def changePinState(self, pinName):
+        response = {}
+        response[TYPE] = CHANGE_GPIO_STATE
+        response[REQUEST_RESULT] = TRUE
         response = json.dumps(response)
         return response

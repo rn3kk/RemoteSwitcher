@@ -1,5 +1,5 @@
-from threading import Thread
-from GPIOController import GPIOController
+from threading import Thread, Lock
+from GPIOController import GPIOController, REQUEST, GET_GPIO_STATE, CHANGE_GPIO_STATE, NAME
 import socket
 import json
 
@@ -11,19 +11,18 @@ from eventlet.support import six
 # demo app
 import os
 
-REQUEST = "request"
-GET_GPIO_STATE = "getGpioState"
 
 class RequestType:
-    REQUEST_IS_UNKNOWN=0
-    REQUEST_GET_INDEX_PAGE=1
-    REQUEST_GET_PIN_STATE=2
-    REQUEST_SET_PIN_STATE=3
+    REQUEST_IS_UNKNOWN = 0
+    REQUEST_GET_INDEX_PAGE = 1
+    REQUEST_GET_PIN_STATE = 2
+    REQUEST_SET_PIN_STATE = 3
 
 
 SEC_WEBSOCKET_KEY = "Sec-WebSocket-Key:"
 SEC_KEY_SUFFIX = "258EAFA5-E914-47DA-95CA-C5AB0DC85B11"
 SEC_WEBSOCKET_EXTENSION = "Sec-WebSocket-Extensions"
+
 
 class HttpRequestHandler(Thread):
 
@@ -57,6 +56,14 @@ class HttpRequestHandler(Thread):
         if "GET" in request:
             return RequestType.REQUEST_GET_INDEX_PAGE;
 
+
+#mutex = Lock()
+def sendToWs(ws, text):
+#    mutex.acquire()
+#    print(text)
+    ws.send(text)
+#    mutex.release()
+
 @websocket.WebSocketWSGI
 def handle(ws):
     while True:
@@ -68,9 +75,14 @@ def handle(ws):
         jsonReq = json.loads(m)
         request = jsonReq[REQUEST]
         if request == GET_GPIO_STATE:
-            state = GPIOController.getInstance().getGpioState()
-            ws.send(state)
+            response = GPIOController.getInstance().getGpioState()
+            sendToWs(ws, response)
+        if request == CHANGE_GPIO_STATE:
+            name = jsonReq[NAME]
+            response = GPIOController.getInstance().changePinState(name)
+            sendToWs(ws, response)
         eventlet.sleep(0.1)
+
 
 def dispatch(environ, start_response):
     if environ['PATH_INFO'] == '/data':
@@ -78,8 +90,9 @@ def dispatch(environ, start_response):
     else:
         start_response('200 OK', [('content-type', 'text/html')])
         return [open(os.path.join(
-                     os.path.dirname(__file__),
-                     'websocket.html')).read()]
+            os.path.dirname(__file__),
+            'websocket.html')).read()]
+
 
 class WebSocketHandler(Thread):
 
