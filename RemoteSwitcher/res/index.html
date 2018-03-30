@@ -10,6 +10,19 @@
 
     <script type="text/JavaScript">
 
+        var bmz = []; //названия БМЗ, берется из файла конфигурации
+
+        function loadBMZ(jsonPinsOutput) {
+           var j = 0;
+           for (var i = 0; i < jsonPinsOutput.length; i++) {
+                var name = jsonPinsOutput[i].name;
+                if (name.indexOf("BMZ") != -1) {
+                  bmz[j] = jsonPinsOutput[i].name;
+                  j++;
+                }
+                //console.log(pin.name);
+           }
+        }
 
         function receiveGPIOState(jsonState) {
             var now = new Date();
@@ -21,6 +34,11 @@
               console.log("receiveGPIOState is ERROR");
             }
             console.log(now)
+
+            if (bmz.length ==0) {
+              loadBMZ(jsonState.pinsOutput);
+            }
+
             for (var i = 0; i < jsonState.pinsOutput.length; i++) {
                 var pin = jsonState.pinsOutput[i]
                 //console.log(pin.name);
@@ -107,7 +125,15 @@
         }
 
     </script>
+
     <input type='button' value='Change' onClick="change_but()" id='test_but'>
+    <table border="1" id="bmzTable">
+      <caption>Управление БМЗ Р-140</caption>
+      <tr><td>1</td> <td>1</td> <td>1</td></tr>
+      <tr><td>1</td> <td>1</td> <td>1</td></tr>
+      <tr><td>1</td> <td>1</td> <td>1</td></tr>
+      <tr><td>1</td> <td>1</td> <td>1</td></tr>
+    </table>
 </head>
 <body>
 

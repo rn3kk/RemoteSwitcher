@@ -1,14 +1,20 @@
 {
     "pinsOutput": [
-        { "name":"10m", "gpioNumber":"1", "auto_off":0, "state":false },
-        { "name":"15m", "gpioNumber":"2", "auto_off":0, "state":false },
-        { "name":"20m", "gpioNumber":"3", "auto_off":0, "state":false },
-        { "name":"30m", "gpioNumber":"4", "auto_off":0, "state":false },
-        { "name":"40m", "gpioNumber":"5", "auto_off":0, "state":false },
-        { "name":"80m", "gpioNumber":"6", "auto_off":0, "state":false },
-        { "name":"160m", "gpioNumber":"7", "auto_off":0, "state":false },
-        { "name":"Ampl P-140", "gpioNumber":"8", "auto_off":0, "state":false },
-        { "name":"Reset protection", "gpioNumber":"8", "auto_off":1000, "state":false }
+        { "name":"10m", "gpioNumber":"1", "auto_off":0, "state":false, "type":"bmz" },
+        { "name":"15m", "gpioNumber":"2", "auto_off":0, "state":false, "type":"bmz" },
+        { "name":"20m", "gpioNumber":"3", "auto_off":0, "state":false, "type":"bmz" },
+        { "name":"30m", "gpioNumber":"4", "auto_off":0, "state":false, "type":"bmz" },
+        { "name":"40m", "gpioNumber":"5", "auto_off":0, "state":false, "type":"bmz" },
+        { "name":"80m", "gpioNumber":"6", "auto_off":0, "state":false, "type":"bmz" },
+        { "name":"160m", "gpioNumber":"7", "auto_off":0, "state":false, "type":"bmz" },
+        { "name":"11m", "gpioNumber":"7", "auto_off":0, "state":false, "type":"bmz" },
+        { "name":"100m", "gpioNumber":"7", "auto_off":0, "state":false, "type":"bmz" },
+        { "name":"Apply BMZ", "gpioNumber":"8", "auto_off":1000, "state":false, "type":"r140_button" },
+        { "name":"Reset protection", "gpioNumber":"8", "auto_off":1000, "state":false, "type":"r140_button"},
+        { "name":"Turn left", "gpioNumber":"8", "auto_off":1000, "state":false, "type":"rotation"},
+        { "name":"Turn right", "gpioNumber":"8", "auto_off":1000, "state":false, "type":"rotation"},
+        { "name":"Turn up", "gpioNumber":"8", "auto_off":1000, "state":false, "type":"rotation"},
+        { "name":"Turn down", "gpioNumber":"8", "auto_off":1000, "state":false, "type":"rotation"}
     ],
 
     "pinsInput": [
