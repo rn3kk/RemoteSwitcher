@@ -29,11 +29,13 @@ class Pin: #Base class for output pin
     __pinName = None
     __pinNumber = None
     __pinState = None
+    __pinType = None
 
-    def __init__(self, pinName, pinNumber):
+    def __init__(self, pinName, pinNumber, pinType):
         self.__pinName = pinName
         self.__pinNumber = pinNumber
         self.__pinState = False
+        self.__pinType = pinType
 
     def getPinName(self):
         return self.__pinName
@@ -44,6 +46,9 @@ class Pin: #Base class for output pin
     def getPinState(self):
         return self.__pinState
 
+    def getPinType(self):
+        return self.__pinType
+
     def setPinNewState(self, state):
         self.__pinState = state
 
@@ -52,8 +57,8 @@ class OutputPin(Pin):
     __autoOffTime = 0
     __timeLeft = 0
 
-    def __init__(self, pinName, pinNumber, autoOffTime = 0, pinState = False):
-        super(OutputPin, self).__init__(pinName, pinNumber)
+    def __init__(self, pinName, pinNumber, pinType, autoOffTime = 0, pinState = False):
+        super(OutputPin, self).__init__(pinName, pinNumber, pinType)
         self.__autoOffTime = autoOffTime
         self.setPinNewState(pinState)
 
@@ -88,13 +93,15 @@ class GPIOController(Thread):
             if autoOff is None:
                 autoOff = 0
             state = pin.get(STATE)
-            self.__outputPinsList.append(OutputPin(name, gpio_number, autoOff, state))
+            type = pin.get(TYPE)
+            self.__outputPinsList.append(OutputPin(name, gpio_number, type, autoOff, state))
 
         inputPinsList = jsonPins[PINS_INPUT]
-        for pin in inputPinsList:  # load output pins
+        for pin in inputPinsList:  # load input pins
             name = pin.get(NAME)
             gpio_number = pin.get(GPIO_NUMBER)
-            self.__inputPinsList.append(Pin(name, gpio_number))
+            type = pin.get(TYPE)
+            self.__inputPinsList.append(Pin(name, gpio_number, type))
 
     def run(self):
         while False:
@@ -105,10 +112,10 @@ class GPIOController(Thread):
     def getGpioState(self):
         input, output = [], []
         for outputPin in self.__outputPinsList:
-            str = {NAME:outputPin.getPinName(), STATE:outputPin.getPinState()}
+            str = {NAME:outputPin.getPinName(), STATE:outputPin.getPinState(), TYPE:outputPin.getPinType()}
             output.append(str)
         for inputPin in self.__inputPinsList:
-            str = {NAME: inputPin.getPinName(), STATE: inputPin.getPinState()}
+            str = {NAME: inputPin.getPinName(), STATE: inputPin.getPinState(), TYPE:inputPin.getPinType()}
             input.append(str)
 
         response = {}
@@ -125,3 +132,6 @@ class GPIOController(Thread):
         response[REQUEST_RESULT] = TRUE
         response = json.dumps(response)
         return response
+
+    def setPinToState(self,pinName, state):
+        return 0
