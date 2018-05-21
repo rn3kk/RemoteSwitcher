@@ -5,8 +5,8 @@
         { "name":"bit3", "gpioNumber":"3", "auto_off":0, "state":false, "type":"bmz" },
         { "name":"bit4", "gpioNumber":"4", "auto_off":0, "state":false, "type":"bmz" },
 
-        { "name":"Apply BMZ", "gpioNumber":"10", "auto_off":1000, "state":false, "type":"r140_button" },
-        { "name":"Reset protection", "gpioNumber":"11", "auto_off":1000, "state":false, "type":"r140_button"},
+        { "name":"Apply", "gpioNumber":"10", "auto_off":1000, "state":false, "type":"r140_button" },
+        { "name":"Reset", "gpioNumber":"11", "auto_off":1000, "state":false, "type":"r140_button"},
 
         { "name":"Az direction", "gpioNumber":"8", "auto_off":0, "state":false, "type":"direction"},
         { "name":"El direction", "gpioNumber":"8", "auto_off":0, "state":false, "type":"direction"},

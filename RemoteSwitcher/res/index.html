@@ -29,7 +29,7 @@
      font-weight: bold;
      margin-top: 7px;    
    }
-   .applyBmz {
+   .r140_button {
      width: 40px;
      height: 20px;
      text-align: center;
@@ -55,8 +55,8 @@
       <button id="8" class="buttonBmz">15</button>
       <button id="9" class="buttonBmz">12</button>
       <button id="10" class="buttonBmz">10</button>
-      <button id="ApplyBmz" class="applyBmz">Apply</button>
-      <button class="buttonBmz">-</button>
+      <button class="r140_button">-</button>
+      <button class="r140_button">-</button>
     </div>
   </div>
 
@@ -121,6 +121,11 @@
   }
 
   var socket = new WebSocket("ws://127.0.0.1:8080/data");
+
+  function writeToWebSocket(data){
+    socket.send(data);
+  }
+
   function checkWebSocket() {
       console.log("page load")
   };
@@ -171,7 +176,7 @@
   function gpioState(){
     var jsonRequestStr = {"request":"getGpioState"};
     var strJson = JSON.stringify(jsonRequestStr);
-    socket.send(strJson);
+    writeToWebSocket(strJson);
   }
 
   setInterval("gpioState()",2000);
@@ -182,14 +187,26 @@
       var strJson = JSON.stringify(jsonRequestStr);
       socket.send(strJson);
     }
-  }
-  
+  }    
+
   function setBmz(bmz){
-    console.log('set bmz:' + bmz);
+    var jsonRequest = {
+      request: "changeBmz",
+      name: bmz	
+    }
+    var strJson = JSON.stringify(jsonRequest);
+    socket.send(strJson);
+    console.log('set bmz:' + strJson);
   }
 
-  function applyBmz(){
-    console.log('apply bmz');
+  function applyBmz(apply){
+   var jsonRequest = {
+      request: "changeGpioState",
+      name: apply	
+    }
+    var strJson = JSON.stringify(jsonRequest);
+    socket.send(strJson);
+    console.log('apply bmz:' + strJson);
   }
 
   function onClickHandler(e) {
@@ -200,7 +217,7 @@
        setBmz(t.id); 
        break; 
      case 'applyBmz':
-       applyBmz();
+       applyBmz(t.id);
        break;
    }
   }
