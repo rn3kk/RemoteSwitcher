@@ -1,5 +1,5 @@
 from threading import Thread, Lock
-from GPIOController import GPIOController, REQUEST, GET_GPIO_STATE, CHANGE_GPIO_STATE, NAME
+from GPIOController import GPIOController, REQUEST, GET_GPIO_STATE, CHANGE_GPIO_STATE, NAME, CHANGE_BMZ, BMZ_NUMBER
 import socket
 import json
 
@@ -77,9 +77,13 @@ def handle(ws):
         if request == GET_GPIO_STATE:
             response = GPIOController.getInstance().getGpioState()
             sendToWs(ws, response)
-        if request == CHANGE_GPIO_STATE:
+        elif request == CHANGE_GPIO_STATE:
             name = jsonReq[NAME]
             response = GPIOController.getInstance().changePinState(name)
+            sendToWs(ws, response)
+        elif request == CHANGE_BMZ :
+            bmzNum = jsonReq[BMZ_NUMBER]
+            response = GPIOController.getInstance().changeBmz(bmzNum)
             sendToWs(ws, response)
         eventlet.sleep(0.1)
 

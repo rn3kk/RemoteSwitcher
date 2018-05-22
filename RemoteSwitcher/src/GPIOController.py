@@ -16,6 +16,8 @@ TYPE = "type"
 REQUEST = "request"
 GET_GPIO_STATE = "getGpioState"
 CHANGE_GPIO_STATE = "changeGpioState"
+CHANGE_BMZ = "changeBmz"
+BMZ_NUMBER = "bmzNumber"
 REQUEST_RESULT = "result"
 TRUE = "true"
 FALSE = "false"
@@ -129,6 +131,13 @@ class GPIOController(Thread):
     def changePinState(self, pinName):
         response = {}
         response[TYPE] = CHANGE_GPIO_STATE
+        response[REQUEST_RESULT] = TRUE
+        response = json.dumps(response)
+        return response
+
+    def changeBmz(self, bmzNumber):
+        response = {}
+        response[TYPE] = CHANGE_BMZ
         response[REQUEST_RESULT] = TRUE
         response = json.dumps(response)
         return response

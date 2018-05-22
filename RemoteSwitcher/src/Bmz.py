@@ -20,6 +20,7 @@ class Bmz:
 
     def setActiveBMZ(self, activeBMZ):
         bitfield = list(bin(activeBMZ))[2:]
+        b = "{0:b}".format(activeBMZ)
         self.__gpioConroller.setPinToState(self.__bit1Pin, bitfield[0])
         self.__gpioConroller.setPinToState(self.__bit2Pin, bitfield[1])
         self.__gpioConroller.setPinToState(self.__bit3Pin, bitfield[2])

@@ -55,8 +55,8 @@
       <button id="8" class="buttonBmz">15</button>
       <button id="9" class="buttonBmz">12</button>
       <button id="10" class="buttonBmz">10</button>
-      <button class="r140_button">-</button>
-      <button class="r140_button">-</button>
+      <button id="Apply" class="r140_button">Apply</button>
+      <button id="Reset" class="r140_button">Reset</button>
     </div>
   </div>
 
@@ -192,14 +192,14 @@
   function setBmz(bmz){
     var jsonRequest = {
       request: "changeBmz",
-      name: bmz	
+      bmzNumber: bmz	
     }
     var strJson = JSON.stringify(jsonRequest);
     socket.send(strJson);
     console.log('set bmz:' + strJson);
   }
 
-  function applyBmz(apply){
+  function applyResetR140(apply){
    var jsonRequest = {
       request: "changeGpioState",
       name: apply	
@@ -216,8 +216,8 @@
      case 'buttonBmz':
        setBmz(t.id); 
        break; 
-     case 'applyBmz':
-       applyBmz(t.id);
+     case 'r140_button':
+       applyResetR140(t.id);
        break;
    }
   }
