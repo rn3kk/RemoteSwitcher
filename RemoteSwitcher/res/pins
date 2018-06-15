@@ -1,22 +1,21 @@
 {
     "pinsOutput": [
-        { "name":"bit1", "gpioNumber":"1", "auto_off":0, "state":false, "type":"bmz" },
-        { "name":"bit2", "gpioNumber":"2", "auto_off":0, "state":false, "type":"bmz" },
-        { "name":"bit3", "gpioNumber":"3", "auto_off":0, "state":false, "type":"bmz" },
-        { "name":"bit4", "gpioNumber":"4", "auto_off":0, "state":false, "type":"bmz" },
+        { "name":"bit1", "gpioNumber":"7", "auto_off":0, "state":false, "type":"bmz" },
+        { "name":"bit2", "gpioNumber":"11", "auto_off":0, "state":false, "type":"bmz" },
+        { "name":"bit3", "gpioNumber":"13", "auto_off":0, "state":false, "type":"bmz" },
+        { "name":"bit4", "gpioNumber":"15", "auto_off":0, "state":false, "type":"bmz" },
 
-        { "name":"Apply", "gpioNumber":"10", "auto_off":1000, "state":false, "type":"r140_button" },
-        { "name":"Reset", "gpioNumber":"11", "auto_off":1000, "state":false, "type":"r140_button"},
+        { "name":"Apply", "gpioNumber":"29", "auto_off":1000, "state":false, "type":"r140_button" },
+        { "name":"Reset", "gpioNumber":"31", "auto_off":1000, "state":false, "type":"r140_button"},
 
-        { "name":"Az direction", "gpioNumber":"8", "auto_off":0, "state":false, "type":"direction"},
-        { "name":"El direction", "gpioNumber":"8", "auto_off":0, "state":false, "type":"direction"},
-        { "name":"Az rotate", "gpioNumber":"8", "auto_off":1000, "state":false, "type":"rotate"},
-        { "name":"El rotate", "gpioNumber":"8", "auto_off":1000, "state":false, "type":"rotate"}
+        { "name":"Az direction", "gpioNumber":"33", "auto_off":0, "state":false, "type":"direction"},
+        { "name":"El direction", "gpioNumber":"35", "auto_off":0, "state":false, "type":"direction"},
+
     ],
 
     "pinsInput": [
-        { "name":"P-140 is ready", "gpioNumber":"9", "type":"r140_status_pin" },
-        { "name":"P-140 protection", "gpioNumber":"10", "type":"r140_status_pin" },
-        { "name":"Power 220B is off", "gpioNumber":"11", "type":"220V_status" }
+        { "name":"P-140 is ready", "gpioNumber":"40", "type":"r140_status_pin" },
+        { "name":"P-140 protection", "gpioNumber":"38", "type":"r140_status_pin" },
+        { "name":"Power 220B is off", "gpioNumber":"36", "type":"220V_status" }
     ]
 }
