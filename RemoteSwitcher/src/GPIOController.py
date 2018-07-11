@@ -97,9 +97,9 @@ class GPIOController(Thread):
         print("Load pins from file ../res/pins")
         self.__outputPinsList = list()
         self.__inputPinsList = list()
-        file = open("../res/pins")
-        data = file.read()
-        file.close()
+        filePins = open("../res/pins")
+        data = filePins.read()
+        filePins.close()
         jsonPins = json.loads(data)
 
         # GPIO.setmode(GPIO.BOARD)
