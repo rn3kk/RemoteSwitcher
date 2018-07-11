@@ -9,8 +9,7 @@
         { "name":"Reset", "gpioNumber":"31", "auto_off":1000, "state":false, "type":"r140_button"},
 
         { "name":"Az direction", "gpioNumber":"33", "auto_off":0, "state":false, "type":"direction"},
-        { "name":"El direction", "gpioNumber":"35", "auto_off":0, "state":false, "type":"direction"},
-
+        { "name":"El direction", "gpioNumber":"35", "auto_off":0, "state":false, "type":"direction"}
     ],
 
     "pinsInput": [
