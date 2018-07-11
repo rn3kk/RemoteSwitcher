@@ -60,8 +60,8 @@ class InputPin(Pin):
     def __init__(self, pinName, pinNumber, pinType):
         super(InputPin, self).__init__(pinName, pinNumber, PinType.input)
 
-     def updatePinState(self):
-         self._pinState = GPIO.input(self._pinNumber)
+    def updatePinState(self):
+        self._pinState = GPIO.input(self._pinNumber)
 
 class OutputPin(Pin):
     __autoOffTime = 0
