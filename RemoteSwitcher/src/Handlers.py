@@ -22,7 +22,7 @@ class RequestType:
 SEC_WEBSOCKET_KEY = "Sec-WebSocket-Key:"
 SEC_KEY_SUFFIX = "258EAFA5-E914-47DA-95CA-C5AB0DC85B11"
 SEC_WEBSOCKET_EXTENSION = "Sec-WebSocket-Extensions"
-
+HTTP_RESPONSE = 'HTTP/1.1 200 OK\r\nCache-Control : no-cache, private\r\nContent-Length : %d\r\nDate : Mon, 24 Nov 2014 12:03:43 GMT\r\n\r\n'
 
 class HttpRequestHandler(Thread):
 
@@ -53,7 +53,10 @@ class HttpRequestHandler(Thread):
         file = open("../res/index.html")
         data = file.read()
         file.close()
-        return data
+        content_length = len(data)
+        page = (HTTP_RESPONSE % content_length)
+        page = page + data
+        return page
 
     def __getRequestType(self, request):
         if "GET" in request:
