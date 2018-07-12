@@ -31,9 +31,9 @@ class HttpRequestHandler(Thread):
 
     def run(self):
         sock = socket.socket()
-        sock.bind(('', 80))
+        sock.bind(('', 81))
         sock.listen(1)
-        print 'waite connection to port 80'
+        print 'waite connection to port 81'
 
         while True:
             conn, addr = sock.accept()
