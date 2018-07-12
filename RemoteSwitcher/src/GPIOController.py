@@ -71,11 +71,11 @@ class OutputPin(Pin):
         super(OutputPin, self).__init__(pinName, pinNumber, PinType.OUTPUT)
         self.__autoOffTime = autoOffTime
         self.setPinNewState(pinState)
-        GPIO.setup(pinNumber, GPIO.OUT)
+        GPIO.setup(int(pinNumber), GPIO.OUT)
 
     def setPinNewState(self, state):
         self._pinState = state
-        GPIO.setup(self._pinNumber, state)
+        GPIO.setup(int(self._pinNumber), state)
 
 
 class GPIOController(Thread):
