@@ -43,7 +43,9 @@ class HttpRequestHandler(Thread):
                 print("request is empty")
                 break
             #requestType = self.__getRequestType(req)
+            print "before send http"
             conn.send(self.getIndexPage())
+            print "after send http"
             conn.close()
         conn.close()
 
