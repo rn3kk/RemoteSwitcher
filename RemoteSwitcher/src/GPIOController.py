@@ -101,7 +101,7 @@ class GPIOController(Thread):
         filePins.close()
         jsonPins = json.loads(data)
 
-        GPIO.setmode(GPIO.BOARD)
+        GPIO.setmode(GPIO.BCM)
         outputPinsList = jsonPins[PINS_OUTPUT]
 
         # load bmz pins
