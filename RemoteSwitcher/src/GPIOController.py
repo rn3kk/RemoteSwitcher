@@ -54,6 +54,7 @@ class Pin:  # Base class for output pin
 class InputPin(Pin):
 
     def __init__(self, pinName, pinNumber):
+       print('InputPin ', pinName, 'number ', pinNumber)
        super(InputPin, self).__init__(pinName, pinNumber, PinType.INPUT)
        GPIO.setup(int(pinNumber), GPIO.IN)
 
@@ -68,6 +69,7 @@ class OutputPin(Pin):
     __timeLeft = 0
 
     def __init__(self, pinName, pinNumber, autoOffTime=0, pinState=False):
+        print('OutputPin ', pinName, 'number ', pinNumber)
         super(OutputPin, self).__init__(pinName, pinNumber, PinType.OUTPUT)
         self.__autoOffTime = autoOffTime
         self.setPinNewState(pinState)
