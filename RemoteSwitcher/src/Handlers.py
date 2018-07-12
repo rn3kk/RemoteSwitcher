@@ -40,8 +40,9 @@ class HttpRequestHandler(Thread):
             print 'connected:', addr
             req = conn.recv(1024)
             if not req:
+                print("request is empty")
                 break
-            requestType = self.__getRequestType(req)
+            #requestType = self.__getRequestType(req)
             conn.send(self.getIndexPage())
             conn.close()
         conn.close()
