@@ -1,7 +1,7 @@
 {
     "pinsOutput": [
         { "name":"bit1", "gpioNumber":"8", "auto_off":0, "state":false, "type":"bmz" },
-        { "name":"bit2", "gpioNumber":"9", "auto_off":0, "state":false, "type":"bmz" },
+        { "name":"bit2", "gpioNumber":"1", "auto_off":0, "state":false, "type":"bmz" },
         { "name":"bit3", "gpioNumber":"7", "auto_off":0, "state":false, "type":"bmz" },
         { "name":"bit4", "gpioNumber":"0", "auto_off":0, "state":false, "type":"bmz" },
 
@@ -13,8 +13,8 @@
     ],
 
     "pinsInput": [
-        { "name":"P-140 is ready", "gpioNumber":"6", "type":"r140_status_pin" },
-        { "name":"P-140 protection", "gpioNumber":"10", "type":"r140_status_pin" },
-        { "name":"Power 220B is off", "gpioNumber":"11", "type":"220V_status" }
+        { "name":"P-140 is ready", "gpioNumber":"4", "type":"r140_status_pin" },
+        { "name":"P-140 protection", "gpioNumber":"6", "type":"r140_status_pin" },
+        { "name":"Power 220B is off", "gpioNumber":"10", "type":"220V_status" }
     ]
 }
