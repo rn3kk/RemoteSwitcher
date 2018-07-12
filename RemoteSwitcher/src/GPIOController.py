@@ -2,7 +2,7 @@ import json
 import time
 from enum import Enum
 
-# import RPi.GPIO as GPIO
+import RPi.GPIO as GPIO
 from threading import Thread
 
 __metaclass__ = type
@@ -23,23 +23,21 @@ REQUEST_RESULT = "result"
 TRUE = "true"
 FALSE = "false"
 
-
 class PinType(Enum):
     INPUT = 1
     OUTPUT = 2
 
-
 class Pin:  # Base class for output pin
-    __pinName = None
+    _pinName = None
     _pinNumber = None
     _pinState = None
-    __pinType = None
+    _pinType = None
 
     def __init__(self, pinName, pinNumber, pinType):
         self.__pinName = pinName
         self._pinNumber = pinNumber
         self.__pinType = pinType
-        # GPIO.setup(pinNumber, GPIO.IN)
+        GPIO.setup(pinNumber, GPIO.IN)
 
     def getPinName(self):
         return self.__pinName
@@ -56,27 +54,28 @@ class Pin:  # Base class for output pin
 
 class InputPin(Pin):
 
-    def __init__(self, pinName, pinNumber, pinType):
-        super(InputPin, self).__init__(pinName, pinNumber, PinType.input)
+    def __init__(self, pinName, pinNumber):
+       super(InputPin, self).__init__(pinName, pinNumber, PinType.INPUT)
 
     def updatePinState(self):
         self._pinState = 1
-        # self._pinState = GPIO.input(self._pinNumber)
+        self._pinState = GPIO.input(self._pinNumber)
 
 
 class OutputPin(Pin):
+
     __autoOffTime = 0
     __timeLeft = 0
 
-    def __init__(self, pinName, pinNumber, pinType, autoOffTime=0, pinState=False):
-        super(OutputPin, self).__init__(pinName, pinNumber, PinType.output)
+    def __init__(self, pinName, pinNumber, autoOffTime=0, pinState=False):
+        super(OutputPin, self).__init__(pinName, pinNumber, PinType.OUTPUT)
         self.__autoOffTime = autoOffTime
         self.setPinNewState(pinState)
-        # GPIO.setup(pinNumber, GPIO.OUT)
+        GPIO.setup(pinNumber, GPIO.OUT)
 
     def setPinNewState(self, state):
         self._pinState = state
-        # GPIO.setup(self._pinNumber, state)
+        GPIO.setup(self._pinNumber, state)
 
 
 class GPIOController(Thread):
@@ -87,6 +86,7 @@ class GPIOController(Thread):
 
     @staticmethod
     def getInstance():
+        pin = OutputPin("dd", 1, 0, False)
         if GPIOController.__instance == None:
             GPIOController.__instance = GPIOController()
         return GPIOController.__instance
@@ -102,7 +102,7 @@ class GPIOController(Thread):
         filePins.close()
         jsonPins = json.loads(data)
 
-        # GPIO.setmode(GPIO.BOARD)
+        GPIO.setmode(GPIO.BOARD)
         outputPinsList = jsonPins[PINS_OUTPUT]
 
         # load bmz pins
@@ -142,8 +142,8 @@ class GPIOController(Thread):
         while False:
             time.sleep(1)
         for pin in self.__inputPinsList:
-            InputPin(pin).updatePinState()
-        # GPIO.cleanup()
+            pin.updatePinState()
+        GPIO.cleanup()
 
     def getGpioState(self):
         input, output = [], []
