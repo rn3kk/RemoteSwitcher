@@ -60,7 +60,7 @@ class InputPin(Pin):
 
     def updatePinState(self):
         self._pinState = 1
-        self._pinState = GPIO.input(self._pinNumber)
+        self._pinState = GPIO.input(int(self._pinNumber))
 
 
 class OutputPin(Pin):
