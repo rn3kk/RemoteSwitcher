@@ -28,16 +28,15 @@ class PinType(Enum):
     OUTPUT = 2
 
 class Pin:  # Base class for output pin
-    _pinName = None
+    __pinName = None
     _pinNumber = None
     _pinState = None
-    _pinType = None
+    __pinType = None
 
     def __init__(self, pinName, pinNumber, pinType):
         self.__pinName = pinName
         self._pinNumber = pinNumber
         self.__pinType = pinType
-        GPIO.setup(pinNumber, GPIO.IN)
 
     def getPinName(self):
         return self.__pinName
@@ -56,6 +55,7 @@ class InputPin(Pin):
 
     def __init__(self, pinName, pinNumber):
        super(InputPin, self).__init__(pinName, pinNumber, PinType.INPUT)
+       GPIO.setup(int(pinNumber), GPIO.IN)
 
     def updatePinState(self):
         self._pinState = 1
