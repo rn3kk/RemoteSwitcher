@@ -86,7 +86,6 @@ class GPIOController(Thread):
 
     @staticmethod
     def getInstance():
-        pin = OutputPin("dd", 1, 0, False)
         if GPIOController.__instance == None:
             GPIOController.__instance = GPIOController()
         return GPIOController.__instance
