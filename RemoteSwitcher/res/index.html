@@ -71,15 +71,21 @@
   var bmz = []; //названия БМЗ, берется из файла конфигурации
 
   function loadBMZ(jsonPinsOutput) {
-     var j = 0;
      for (var i = 0; i < jsonPinsOutput.length; i++) {
           var name = jsonPinsOutput[i].name;
           var type = jsonPinsOutput[i].type;
-          if (type.indexOf("bmz") != -1) {
-            bmz[j] = jsonPinsOutput[i].name;
-            j++;
+          if (type == "bit1") {
+            bmz[0] = jsonPinsOutput[i].state
           }
-          //console.log(pin.name);
+          if (type == "bit2") {
+            bmz[1] = jsonPinsOutput[i].state
+          }
+          if (type == "bit3") {
+            bmz[2] = jsonPinsOutput[i].state
+          }
+          if (type == "bit4") {
+            bmz[3] = jsonPinsOutput[i].state
+          }
      }
   }
 
