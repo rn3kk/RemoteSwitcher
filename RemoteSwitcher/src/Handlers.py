@@ -110,6 +110,6 @@ class WebSocketHandler(Thread):
         Thread.__init__(self)
 
     def run(self):
-        listener = eventlet.listen(('127.0.0.1', 8080))
+        listener = eventlet.listen(('0.0.0.0', 8080))
         print("\nVisit http://localhost:8080/ in your websocket-capable browser.\n")
         wsgi.server(listener, dispatch)
