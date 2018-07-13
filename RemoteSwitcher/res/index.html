@@ -120,7 +120,8 @@
     }
   }
 
-  var socket = new WebSocket("ws://127.0.0.1:8080/data");
+  var serverLocation = window.location.hostname;
+  var socket = new WebSocket("ws://" + serverLocation + ":8080/data");
 
   function writeToWebSocket(data){
     socket.send(data);
