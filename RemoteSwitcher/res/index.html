@@ -73,17 +73,16 @@
   function loadBMZ(jsonPinsOutput) {
      for (var i = 0; i < jsonPinsOutput.length; i++) {
           var name = jsonPinsOutput[i].name;
-          var type = jsonPinsOutput[i].type;
-          if (type == "bit1") {
+          if (name == "bit1") {
             bmz[0] = jsonPinsOutput[i].state
           }
-          if (type == "bit2") {
+          if (name == "bit2") {
             bmz[1] = jsonPinsOutput[i].state
           }
-          if (type == "bit3") {
+          if (name == "bit3") {
             bmz[2] = jsonPinsOutput[i].state
           }
-          if (type == "bit4") {
+          if (name == "bit4") {
             bmz[3] = jsonPinsOutput[i].state
           }
      }
