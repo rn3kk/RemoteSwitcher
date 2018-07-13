@@ -48,7 +48,7 @@ class Pin:  # Base class for output pin
         return self._pinState
 
     def getPinType(self):
-        return self.__pinType
+        return int(self.__pinType)
 
 
 class InputPin(Pin):
