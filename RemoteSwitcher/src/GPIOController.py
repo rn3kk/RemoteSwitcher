@@ -2,7 +2,7 @@ import json
 import time
 from enum import Enum
 
-import RPi.GPIO as GPIO
+#import RPi.GPIO as GPIO
 from threading import Thread
 
 __metaclass__ = type
@@ -22,6 +22,7 @@ BMZ_NUMBER = "bmzNumber"
 REQUEST_RESULT = "result"
 TRUE = "true"
 FALSE = "false"
+BMZ = "bmz"
 
 class PinType(Enum):
     INPUT = 1
@@ -59,11 +60,11 @@ class InputPin(Pin):
     def __init__(self, pinName, pinNumber):
        print('InputPin ', pinName, 'number ', pinNumber)
        super(InputPin, self).__init__(pinName, pinNumber, PinType.INPUT)
-       GPIO.setup(int(pinNumber), GPIO.IN)
+       #GPIO.setup(int(pinNumber), GPIO.IN)
 
     def updatePinState(self):
         self._pinState = 1
-        self._pinState = GPIO.input(int(self._pinNumber))
+ #       self._pinState = GPIO.input(int(self._pinNumber))
 
 
 class OutputPin(Pin):
@@ -76,11 +77,11 @@ class OutputPin(Pin):
         super(OutputPin, self).__init__(pinName, pinNumber, PinType.OUTPUT)
         self.__autoOffTime = autoOffTime
         self.setPinNewState(pinState)
-        GPIO.setup(int(pinNumber), GPIO.OUT)
+ #       GPIO.setup(int(pinNumber), GPIO.OUT)
 
     def setPinNewState(self, state):
         self._pinState = state
-        GPIO.setup(int(self._pinNumber), state)
+ #       GPIO.setup(int(self._pinNumber), state)
 
 
 class GPIOController(Thread):
@@ -106,7 +107,7 @@ class GPIOController(Thread):
         filePins.close()
         jsonPins = json.loads(data)
 
-        GPIO.setmode(GPIO.BCM)
+#        GPIO.setmode(GPIO.BCM)
         outputPinsList = jsonPins[PINS_OUTPUT]
 
         # load bmz pins
@@ -122,7 +123,6 @@ class GPIOController(Thread):
                 autoOff = 0
             state = pin.get(STATE)
             type = pin.get(TYPE)
-            self.__outputPinsList.append(OutputPin(name, gpio_number, autoOff, state))
             if type == "bmz":
                 if name == "bit1":
                     bit1 = gpio_number
@@ -132,8 +132,13 @@ class GPIOController(Thread):
                     bit3 = gpio_number
                 if name == "bit4":
                     bit4 = gpio_number
+            else:
+                self.__outputPinsList.append(OutputPin(name, gpio_number, autoOff, state))
+
         if not (bit1 is None) and not (bit2 is None) and not (bit3 is None) and not (bit4 is None):
-            self.__bmz = Bmz()
+            self.__bmz = Bmz(bit1, bit2, bit3, bit4)
+            self.__outputPinsList.append(self.__bmz.toOutputPin())
+
 
         inputPinsList = jsonPins[PINS_INPUT]
         for pin in inputPinsList:  # load input pins
@@ -147,7 +152,7 @@ class GPIOController(Thread):
             time.sleep(1)
         for pin in self.__inputPinsList:
             pin.updatePinState()
-        GPIO.cleanup()
+#        GPIO.cleanup()
 
     def getGpioState(self):
         input, output = [], []
@@ -193,17 +198,14 @@ class GPIOController(Thread):
 
 
 class Bmz:
-    __bit0Pin = None
-    __bit1Pin = None
-    __bit2Pin = None
-    __bit3Pin = None
+    __bits = []
     __gpioConroller = None
 
-    def __int__(self, bit0, bit1, bit2, bit3):
-        self.__bit0Pin = bit0
-        self.__bit1Pin = bit1
-        self.__bit2Pin = bit2
-        self.__bit3Pin = bit3
+    def __init__(self, bit0, bit1, bit2, bit3):
+        self.__bits.append(bit0)
+        self.__bits.append(bit1)
+        self.__bits.append(bit2)
+        self.__bits.append(bit3)
         self.__gpioConroller = GPIOController.getInstace()
 
     def getActiveBMZ(self):
@@ -212,7 +214,15 @@ class Bmz:
     def setActiveBMZ(self, activeBMZ):
         bitfield = list(bin(activeBMZ))[2:]
         b = "{0:b}".format(activeBMZ)
-        self.__gpioConroller.setPinToState(self.__bit1Pin, bitfield[0])
-        self.__gpioConroller.setPinToState(self.__bit2Pin, bitfield[1])
-        self.__gpioConroller.setPinToState(self.__bit3Pin, bitfield[2])
-        self.__gpioConroller.setPinToState(self.__bit4Pin, bitfield[3])
+        self.__gpioConroller.setPinToState(self.__bits[0], bitfield[0])
+        self.__gpioConroller.setPinToState(self.__bits[1], bitfield[1])
+        self.__gpioConroller.setPinToState(self.__bits[2], bitfield[2])
+        self.__gpioConroller.setPinToState(self.__bits[3], bitfield[3])
+
+    def toOutputPin(self):
+        bmzNum = 0
+        bmzNum = (bmzNum << 1) | self.__bits[0]
+        bmzNum = (bmzNum << 1) | self.__bits[1]
+        bmzNum = (bmzNum << 1) | self.__bits[2]
+        bmzNum = (bmzNum << 1) | self.__bits[3]
+        return OutputPin(BMZ, 0, False, bmzNum)
