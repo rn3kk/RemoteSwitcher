@@ -69,22 +69,15 @@
 <script type="text/JavaScript">
 
   var bmz = []; //названия БМЗ, берется из файла конфигурации
+  var selectedBMZ;
 
   function loadBMZ(jsonPinsOutput) {
      for (var i = 0; i < jsonPinsOutput.length; i++) {
-          var name = jsonPinsOutput[i].name;
-          if (name == "bit1") {
-            bmz[0] = jsonPinsOutput[i].state
-          }
-          if (name == "bit2") {
-            bmz[1] = jsonPinsOutput[i].state
-          }
-          if (name == "bit3") {
-            bmz[2] = jsonPinsOutput[i].state
-          }
-          if (name == "bit4") {
-            bmz[3] = jsonPinsOutput[i].state
-          }
+       var name = jsonPinsOutput[i].name;
+       if (name == "bmz"){
+         selectedBMZ = jsonPinsOutput[i].state
+         break;
+       }
      }
   }
 

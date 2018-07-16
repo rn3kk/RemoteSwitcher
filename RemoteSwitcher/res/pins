@@ -2,7 +2,7 @@
     "pinsOutput": [
         { "name":"bit1", "gpioNumber":"8", "auto_off":0, "state":false, "type":"bmz" },
         { "name":"bit2", "gpioNumber":"1", "auto_off":0, "state":false, "type":"bmz" },
-        { "name":"bit3", "gpioNumber":"7", "auto_off":0, "state":false, "type":"bmz" },
+        { "name":"bit3", "gpioNumber":"7", "auto_off":0, "state":true, "type":"bmz" },
         { "name":"bit4", "gpioNumber":"0", "auto_off":0, "state":false, "type":"bmz" },
 
         { "name":"Apply", "gpioNumber":"2", "auto_off":1000, "state":false, "type":"r140_button" },
