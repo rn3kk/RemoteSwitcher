@@ -83,6 +83,7 @@ class OutputPin(Pin):
 
     def setPinNewState(self, state):
         self._pinState = state
+        GPIO.setmode(GPIO.BCM)
         GPIO.output(int(self._pinNumber), bool(state))
         print('New statete for OutputPin ', self.getPinName(), 'number ', self.getPinNumber(), 'sate ', self.getPinState() )
 
