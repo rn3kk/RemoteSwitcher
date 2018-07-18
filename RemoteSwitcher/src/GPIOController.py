@@ -61,6 +61,7 @@ class InputPin(Pin):
     def __init__(self, pinName, pinNumber):
        print('InputPin ', pinName, 'number ', pinNumber)
        super(InputPin, self).__init__(pinName, pinNumber, PinType.INPUT)
+       GPIO.setmode(GPIO.BCM)
        GPIO.setup(int(pinNumber), GPIO.IN)
 
     def updatePinState(self):
@@ -76,12 +77,12 @@ class OutputPin(Pin):
         print('OutputPin ', pinName, 'number ', pinNumber)
         super(OutputPin, self).__init__(pinName, pinNumber, PinType.OUTPUT)
         self.__autoOffTime = autoOffTime
+        GPIO.setmode(GPIO.BCM)
         GPIO.setup(int(pinNumber), GPIO.OUT)
         self.setPinNewState(pinState)
 
     def setPinNewState(self, state):
         self._pinState = state
-        GPIO.setmode(GPIO.BCM)
         GPIO.output(int(self._pinNumber), state)
 
 class GPIOController(Thread):
