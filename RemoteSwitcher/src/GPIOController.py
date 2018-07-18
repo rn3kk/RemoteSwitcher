@@ -157,11 +157,8 @@ class GPIOController(Thread):
         for outputPin in self.__outputPinsList:
             str = {NAME: outputPin.getPinName(), STATE: outputPin.getPinState(), TYPE: outputPin.getPinType()}
             output.append(str)
-        bmzOutputPin = self.__bmz.toOutputPin()
-        str = {NAME: bmzOutputPin.getPinName(), STATE: bmzOutputPin.getPinState(), TYPE: bmzOutputPin.getPinType()}
-        output.append(str)
+        output.append(self.__bmz.toOutputPin())
         for inputPin in self.__inputPinsList:
-            str = {NAME: inputPin.getPinName(), STATE: inputPin.getPinState(), TYPE: inputPin.getPinType()}
             str = {NAME: inputPin.getPinName(), STATE: inputPin.getPinState(), TYPE: inputPin.getPinType()}
             input.append(str)
         response = {}
@@ -230,4 +227,6 @@ class Bmz:
         bmzNum = (bmzNum << 1) | int(self.__pin1.getPinState())
         bmzNum = (bmzNum << 1) | int(self.__pin2.getPinState())
         bmzNum = (bmzNum << 1) | int(self.__pin3.getPinState())
-        return OutputPin(BMZ, 0, False, bmzNum)
+
+        str = {NAME: BMZ, STATE: bmzNum, TYPE: 1}
+        return str
