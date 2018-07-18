@@ -81,6 +81,7 @@ class OutputPin(Pin):
 
     def setPinNewState(self, state):
         self._pinState = state
+        GPIO.setmode(GPIO.BCM)
         GPIO.output(int(self._pinNumber), state)
 
 class GPIOController(Thread):
@@ -96,7 +97,6 @@ class GPIOController(Thread):
         return GPIOController.__instance
 
     def __init__(self):
-        GPIO.setmode(GPIO.BCM)
         Thread.__init__(self)
         print("Load pins from file ../res/pins")
         self.__outputPinsList = list()
@@ -105,7 +105,6 @@ class GPIOController(Thread):
         data = filePins.read()
         filePins.close()
         jsonPins = json.loads(data)
-
 
         outputPinsList = jsonPins[PINS_OUTPUT]
 
