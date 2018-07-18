@@ -76,8 +76,8 @@ class OutputPin(Pin):
         print('OutputPin ', pinName, 'number ', pinNumber)
         super(OutputPin, self).__init__(pinName, pinNumber, PinType.OUTPUT)
         self.__autoOffTime = autoOffTime
-        self.setPinNewState(pinState)
         GPIO.setup(int(pinNumber), GPIO.OUT)
+        self.setPinNewState(pinState)
 
     def setPinNewState(self, state):
         self._pinState = state
