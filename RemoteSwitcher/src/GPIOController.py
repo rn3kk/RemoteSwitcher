@@ -83,7 +83,7 @@ class OutputPin(Pin):
 
     def setPinNewState(self, state):
         self._pinState = state
-        GPIO.output(int(self._pinNumber), state)
+        GPIO.output(int(self._pinNumber), bool(state))
 
 class GPIOController(Thread):
     __instance = None
