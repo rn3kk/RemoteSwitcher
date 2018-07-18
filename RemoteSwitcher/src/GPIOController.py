@@ -96,6 +96,7 @@ class GPIOController(Thread):
         return GPIOController.__instance
 
     def __init__(self):
+        GPIO.setmode(GPIO.BCM)
         Thread.__init__(self)
         print("Load pins from file ../res/pins")
         self.__outputPinsList = list()
@@ -105,7 +106,7 @@ class GPIOController(Thread):
         filePins.close()
         jsonPins = json.loads(data)
 
-        GPIO.setmode(GPIO.BCM)
+
         outputPinsList = jsonPins[PINS_OUTPUT]
 
         # load bmz pins
