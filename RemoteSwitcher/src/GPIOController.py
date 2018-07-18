@@ -2,7 +2,7 @@ import json
 import time
 from enum import Enum
 
-#import RPi.GPIO as GPIO
+import RPi.GPIO as GPIO
 from threading import Thread
 
 __metaclass__ = type
@@ -61,12 +61,11 @@ class InputPin(Pin):
     def __init__(self, pinName, pinNumber):
        print('InputPin ', pinName, 'number ', pinNumber)
        super(InputPin, self).__init__(pinName, pinNumber, PinType.INPUT)
-       #GPIO.setup(int(pinNumber), GPIO.IN)
+       GPIO.setup(int(pinNumber), GPIO.IN)
 
     def updatePinState(self):
         self._pinState = 1
- #       self._pinState = GPIO.input(int(self._pinNumber))
-
+        self._pinState = GPIO.input(int(self._pinNumber))
 
 class OutputPin(Pin):
 
@@ -78,12 +77,11 @@ class OutputPin(Pin):
         super(OutputPin, self).__init__(pinName, pinNumber, PinType.OUTPUT)
         self.__autoOffTime = autoOffTime
         self.setPinNewState(pinState)
- #       GPIO.setup(int(pinNumber), GPIO.OUT)
+        GPIO.setup(int(pinNumber), GPIO.OUT)
 
     def setPinNewState(self, state):
         self._pinState = state
- #       GPIO.setup(int(self._pinNumber), state)
-
+        GPIO.setup(int(self._pinNumber), state)
 
 class GPIOController(Thread):
     __instance = None
@@ -107,7 +105,7 @@ class GPIOController(Thread):
         filePins.close()
         jsonPins = json.loads(data)
 
-#        GPIO.setmode(GPIO.BCM)
+        GPIO.setmode(GPIO.BCM)
         outputPinsList = jsonPins[PINS_OUTPUT]
 
         # load bmz pins
@@ -137,7 +135,6 @@ class GPIOController(Thread):
 
         if not (bmzPin0 is None) and not (bmzPin1 is None) and not (bmzPin2 is None) and not (bmzPin3 is None):
             self.__bmz = Bmz(bmzPin0, bmzPin1, bmzPin2, bmzPin3)
-            #self.__outputPinsList.append(self.__bmz.toOutputPin())
 
         inputPinsList = jsonPins[PINS_INPUT]
         for pin in inputPinsList:  # load input pins
@@ -151,11 +148,7 @@ class GPIOController(Thread):
             time.sleep(1)
         for pin in self.__inputPinsList:
             pin.updatePinState()
-#        GPIO.cleanup()
-
-    def getGpioState(self, pin):
-        #return
-        return True
+        GPIO.cleanup()
 
     def getGpioState(self):
         input, output = [], []
@@ -166,6 +159,7 @@ class GPIOController(Thread):
         str = {NAME: bmzOutputPin.getPinName(), STATE: bmzOutputPin.getPinState(), TYPE: bmzOutputPin.getPinType()}
         output.append(str)
         for inputPin in self.__inputPinsList:
+            str = {NAME: inputPin.getPinName(), STATE: inputPin.getPinState(), TYPE: inputPin.getPinType()}
             str = {NAME: inputPin.getPinName(), STATE: inputPin.getPinState(), TYPE: inputPin.getPinType()}
             input.append(str)
         response = {}
@@ -216,9 +210,6 @@ class Bmz:
         self.__pin1 = pin1
         self.__pin2 = pin2
         self.__pin3 = pin3
-
-    def getActiveBMZ(self):
-        return 1;
 
     def setActiveBMZ(self, activeBMZ):
         bitfield = list(bin(activeBMZ))[2:]
