@@ -29,6 +29,17 @@
      font-weight: bold;
      margin-top: 7px;    
    }
+   .activeBmz {
+     width: 40px;
+     height: 20px;
+     text-align: center;
+     background: -webkit-gradient(linear, 0 0, 0 100%, from(green), to(#666363));
+     font-family: Arial;
+     font-size: 11px;
+     color: white;
+     font-weight: bold;
+     margin-top: 7px;
+   }
    .r140_button {
      width: 40px;
      height: 20px;
@@ -75,7 +86,18 @@
      for (var i = 0; i < jsonPinsOutput.length; i++) {
        var name = jsonPinsOutput[i].name;
        if (name == "bmz"){
-         selectedBMZ = jsonPinsOutput[i].state
+         newBMZ = jsonPinsOutput[i].state
+         if(selectedBMZ != newBMZ){
+           var buttonOld = document.getElementById(selectedBMZ);
+           var buttonNew = document.getElementById(newBMZ);
+           if(buttonOld != null) {
+             buttonOld.className = "buttonBmz";
+           }
+           if(buttonNew != null){
+             buttonNew.className = "activeBmz";
+           }
+           selectedBMZ = newBMZ;
+         }
          break;
        }
      }

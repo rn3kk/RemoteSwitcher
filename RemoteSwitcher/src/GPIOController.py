@@ -137,7 +137,7 @@ class GPIOController(Thread):
 
         if not (bmzPin0 is None) and not (bmzPin1 is None) and not (bmzPin2 is None) and not (bmzPin3 is None):
             self.__bmz = Bmz(bmzPin0, bmzPin1, bmzPin2, bmzPin3)
-            self.__outputPinsList.append(self.__bmz.toOutputPin())
+            #self.__outputPinsList.append(self.__bmz.toOutputPin())
 
         inputPinsList = jsonPins[PINS_INPUT]
         for pin in inputPinsList:  # load input pins
@@ -162,6 +162,9 @@ class GPIOController(Thread):
         for outputPin in self.__outputPinsList:
             str = {NAME: outputPin.getPinName(), STATE: outputPin.getPinState(), TYPE: outputPin.getPinType()}
             output.append(str)
+        bmzOutputPin = self.__bmz.toOutputPin()
+        str = {NAME: bmzOutputPin.getPinName(), STATE: bmzOutputPin.getPinState(), TYPE: bmzOutputPin.getPinType()}
+        output.append(str)
         for inputPin in self.__inputPinsList:
             str = {NAME: inputPin.getPinName(), STATE: inputPin.getPinState(), TYPE: inputPin.getPinType()}
             input.append(str)
@@ -184,11 +187,11 @@ class GPIOController(Thread):
         return response
 
     def changeBmz(self, bmzNumber):
-        if not (self.__bmz is None):
+        if (self.__bmz is None):
             result = FALSE
         else:
             result = TRUE
-            self.__bmz.setActiveBMZ(bmzNumber)
+            self.__bmz.setActiveBMZ(int(bmzNumber))
         response = {}
         response[TYPE] = CHANGE_BMZ
         response[REQUEST_RESULT] = result
@@ -218,9 +221,11 @@ class Bmz:
         return 1;
 
     def setActiveBMZ(self, activeBMZ):
-        gpioConroller = GPIOController.getInstance()
         bitfield = list(bin(activeBMZ))[2:]
-        b = "{0:b}".format(activeBMZ)
+
+        for x in range(4-len(bitfield)):
+          bitfield = [0] + bitfield
+
         self.__pin0.setPinNewState(bitfield[0])
         self.__pin1.setPinNewState(bitfield[1])
         self.__pin2.setPinNewState(bitfield[2])
@@ -228,8 +233,8 @@ class Bmz:
 
     def toOutputPin(self):
         bmzNum = 0
-        bmzNum = (bmzNum << 1) | self.__pin0.getPinState()
-        bmzNum = (bmzNum << 1) | self.__pin1.getPinState()
-        bmzNum = (bmzNum << 1) | self.__pin2.getPinState()
-        bmzNum = (bmzNum << 1) | self.__pin3.getPinState()
+        bmzNum = (bmzNum << 1) | int(self.__pin0.getPinState())
+        bmzNum = (bmzNum << 1) | int(self.__pin1.getPinState())
+        bmzNum = (bmzNum << 1) | int(self.__pin2.getPinState())
+        bmzNum = (bmzNum << 1) | int(self.__pin3.getPinState())
         return OutputPin(BMZ, 0, False, bmzNum)
