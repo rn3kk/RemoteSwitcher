@@ -83,7 +83,7 @@ class OutputPin(Pin):
 
     def setPinState(self,state):
         self.__timeLeft = 1
-        self. __setPinNewState(state)
+        self. __setState(state)
 
 
     def __setState(self, state):
@@ -103,8 +103,10 @@ class OutputPin(Pin):
             return
         if self.__timeLeft >= self.__autoOffTime:
             try:
+                GPIO.setmode(GPIO.BCM)
                 GPIO.setup(int(self._pinNumber), GPIO.OUT)
-                GPIO.output(int(self._pinNumber), not bool(self.getPinState()))
+
+                GPIO.output(int(self._pinNumber), bool(not self.getPinState()))
                 self.__timeLeft = 0
                 print('Auto change state OutputPin ', self.getPinName(), 'number ', self.getPinNumber(), 'sate ',
                       self.getPinState())
