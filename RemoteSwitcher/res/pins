@@ -5,8 +5,8 @@
         { "name":"bit3", "gpioNumber":"7", "auto_off":0, "state":true, "type":"bmz" },
         { "name":"bit4", "gpioNumber":"0", "auto_off":0, "state":false, "type":"bmz" },
 
-        { "name":"Apply", "gpioNumber":"2", "auto_off":1000, "state":false, "type":"r140_button" },
-        { "name":"Reset", "gpioNumber":"3", "auto_off":1000, "state":false, "type":"r140_button"}
+        { "name":"Apply", "gpioNumber":"2", "auto_off":5, "state":false, "type":"r140_button" },
+        { "name":"Reset", "gpioNumber":"3", "auto_off":5, "state":false, "type":"r140_button"}
     ],
 
     "pinsInput": [
