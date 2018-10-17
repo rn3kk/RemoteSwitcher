@@ -83,9 +83,13 @@ class OutputPin(Pin):
 
     def setPinNewState(self, state):
         self._pinState = state
-        GPIO.setmode(GPIO.BCM)
-        GPIO.output(int(self._pinNumber), bool(state))
-        print('New statete for OutputPin ', self.getPinName(), 'number ', self.getPinNumber(), 'sate ', self.getPinState() )
+        #GPIO.setmode(GPIO.BCM)
+        try:
+            GPIO.output(int(self._pinNumber), bool(state))
+            print('New statete for OutputPin ', self.getPinName(), 'number ', self.getPinNumber(), 'sate ', self.getPinState() )
+        except Exception:
+            print('Error: output pin state NOT changed')
+
 
 class GPIOController(Thread):
     __instance = None
