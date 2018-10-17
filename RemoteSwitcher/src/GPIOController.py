@@ -74,16 +74,17 @@ class OutputPin(Pin):
     __timeLeft = 0
 
     def __init__(self, pinName, pinNumber, autoOffTime=0, pinState=False):
-        print('OutputPin ', pinName, 'number ', pinNumber)
+        print('OutputPin ', pinName, 'number ', pinNumber, "autoOffTime", autoOffTime)
         super(OutputPin, self).__init__(pinName, pinNumber, PinType.OUTPUT)
         self.__autoOffTime = autoOffTime
-        GPIO.setmode(GPIO.BCM)
-        GPIO.setup(int(pinNumber), GPIO.OUT)
+        #GPIO.setmode(GPIO.BCM)
+        #GPIO.setup(int(pinNumber), GPIO.OUT)
         self.setPinNewState(pinState)
 
     def setPinNewState(self, state):
         self._pinState = state
         try:
+            GPIO.setmode(GPIO.BCM)
             GPIO.setup(int(self._pinNumber), GPIO.OUT)
             GPIO.output(int(self._pinNumber), bool(state))
             self.__timeLeft = 1
