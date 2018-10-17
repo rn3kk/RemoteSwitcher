@@ -102,17 +102,8 @@ class OutputPin(Pin):
         if self.__timeLeft == 0:
             return
         if self.__timeLeft >= self.__autoOffTime:
-            try:
-                GPIO.setmode(GPIO.BCM)
-                GPIO.setup(int(self._pinNumber), GPIO.OUT)
-
-                GPIO.output(int(self._pinNumber), bool(not self.getPinState()))
-                self.__timeLeft = 0
-                print('Auto change state OutputPin ', self.getPinName(), 'number ', self.getPinNumber(), 'sate ',
-                      self.getPinState())
-                self.__timeLeft = 0
-            except Exception:
-                print('Error updateAutoOffstate: output pin state NOT changed')
+            self.__setState(not self._pinState)
+            self.__timeLeft = 0
         else:
             self.__timeLeft += checkInterval
             print('Auto change state OutputPin ', self.getPinName(), 'number ', self.getPinNumber(), 'sate ',
