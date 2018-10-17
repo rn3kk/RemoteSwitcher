@@ -85,17 +85,28 @@ class OutputPin(Pin):
         try:
             GPIO.setup(int(self._pinNumber), GPIO.OUT)
             GPIO.output(int(self._pinNumber), bool(state))
+            self.__timeLeft = 1
             print('New statete for OutputPin ', self.getPinName(), 'number ', self.getPinNumber(), 'sate ', self.getPinState() )
         except Exception:
             print('Error: output pin state NOT changed')
 
     def updateAutoOffstate(self, checkInterval):
-        self.__autoOffTime -= int(checkInterval)
-        if self.__autoOffTime <= 0:
-            self.__autoOffTime = 0
-            self.setPinNewState(not self.getPinState())
-            print('Auto change OutputPin state by TIME ', self.getPinName(), 'number ', self.getPinNumber(), 'sate ',
-                  self.getPinState())
+        if self.__autoOffTime == 0:
+            return
+        if self.__timeLeft == 0:
+            return
+        if self.__timeLeft >= self.__autoOffTime:
+            try:
+                GPIO.setup(int(self._pinNumber), GPIO.OUT)
+                GPIO.output(int(self._pinNumber), not bool(self.getPinState()))
+                self.__timeLeft = 0
+                print('Auto change state OutputPin ', self.getPinName(), 'number ', self.getPinNumber(), 'sate ',
+                      self.getPinState())
+                self.__timeLeft = 0
+            except Exception:
+                print('Error: output pin state NOT changed')
+        else:
+            self.__timeLeft += checkInterval
 
 class GPIOController(Thread):
     __instance = None
@@ -157,7 +168,7 @@ class GPIOController(Thread):
             self.__inputPinsList.append(InputPin(name, gpio_number))
 
     def run(self):
-        timeSleepInterval = 10
+        timeSleepInterval = 100
         while False:
             time.sleep(timeSleepInterval)
             for pin in self.__inputPinsList:
