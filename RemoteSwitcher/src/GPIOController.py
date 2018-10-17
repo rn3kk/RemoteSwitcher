@@ -79,15 +79,19 @@ class OutputPin(Pin):
         self.__autoOffTime = autoOffTime
         #GPIO.setmode(GPIO.BCM)
         #GPIO.setup(int(pinNumber), GPIO.OUT)
-        self.setPinNewState(pinState)
+        self.__setState(pinState)
 
-    def setPinNewState(self, state):
+    def setPinState(self,state):
+        self.__timeLeft = 1
+        self. __setPinNewState(state)
+
+
+    def __setState(self, state):
         self._pinState = state
         try:
             GPIO.setmode(GPIO.BCM)
             GPIO.setup(int(self._pinNumber), GPIO.OUT)
             GPIO.output(int(self._pinNumber), bool(state))
-            self.__timeLeft = 1
             print('New statete for OutputPin ', self.getPinName(), 'number ', self.getPinNumber(), 'sate ', self.getPinState() )
         except Exception:
             print('Error: output pin state NOT changed')
@@ -178,7 +182,7 @@ class GPIOController(Thread):
             for pin in self.__inputPinsList:
                 pin.updatePinState()
             for p in self.__outputPinsList:
-                pin.updateAutoOffstate(timeSleepInterval)
+                p.updateAutoOffstate(timeSleepInterval)
         GPIO.cleanup()
 
     def getGpioState(self):
@@ -201,7 +205,7 @@ class GPIOController(Thread):
     def changePinState(self, pinName):
         for pin in self.__outputPinsList:
             if pin.getPinName() == pinName:
-                pin.setPinNewState(not pin.getPinState())
+                pin.setPinState(not pin.getPinState())
         response = {}
         response[TYPE] = CHANGE_GPIO_STATE
         response[REQUEST_RESULT] = TRUE
@@ -245,10 +249,10 @@ class Bmz:
         for x in range(4-len(bitfield)):
           bitfield = [0] + bitfield
 
-        self.__pin0.setPinNewState(bitfield[0])
-        self.__pin1.setPinNewState(bitfield[1])
-        self.__pin2.setPinNewState(bitfield[2])
-        self.__pin3.setPinNewState(bitfield[3])
+        self.__pin0.setPinState(bitfield[0])
+        self.__pin1.setPinState(bitfield[1])
+        self.__pin2.setPinState(bitfield[2])
+        self.__pin3.setPinState(bitfield[3])
 
     def toOutputPin(self):
         bmzNum = 0
