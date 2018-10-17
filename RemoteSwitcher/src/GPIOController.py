@@ -157,12 +157,13 @@ class GPIOController(Thread):
             self.__inputPinsList.append(InputPin(name, gpio_number))
 
     def run(self):
+        timeSleepInterval = 10
         while False:
-            time.sleep(1)
+            time.sleep(timeSleepInterval)
             for pin in self.__inputPinsList:
                 pin.updatePinState()
             for pin in self.__outputPinsList:
-                pin.
+                pin.updatePinState(timeSleepInterval)
         GPIO.cleanup()
 
     def getGpioState(self):
