@@ -269,7 +269,10 @@
      case 'buttonBmz':
        setBmz(t.id); 
        break; 
-     case 'buttonOn' || 'buttonOff':
+     case 'buttonOn' :
+       changeRemoteBtn(t.id);
+       break;
+     case 'buttonOff' :
        changeRemoteBtn(t.id);
        break;
    }

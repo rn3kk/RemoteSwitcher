@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3c2dd13e-f309-4ee7-a693-f3f8ab98863c" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/RemoteSwitcher/src/GPIOController.py" afterPath="$PROJECT_DIR$/RemoteSwitcher/src/GPIOController.py" />
+      <change beforePath="$PROJECT_DIR$/RemoteSwitcher/res/index.html" afterPath="$PROJECT_DIR$/RemoteSwitcher/res/index.html" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -25,11 +25,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
+      <file leaf-file-name="index.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/RemoteSwitcher/res/index.html">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="344">
-              <caret line="152" column="40" lean-forward="false" selection-start-line="152" selection-start-column="40" selection-end-line="152" selection-end-column="40" />
+              <caret line="260" column="25" lean-forward="true" selection-start-line="260" selection-start-column="25" selection-end-line="260" selection-end-column="25" />
               <folding>
                 <element signature="n#script#0;n#body#0;n#html#0;n#!!top" expanded="false" />
               </folding>
@@ -59,7 +59,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="GPIOController.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="GPIOController.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/RemoteSwitcher/src/GPIOController.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="272">
@@ -122,8 +122,8 @@
         <option value="$PROJECT_DIR$/RemoteSwitcher/src/Bmz.py" />
         <option value="$PROJECT_DIR$/RemoteSwitcher/src/Handlers.py" />
         <option value="$PROJECT_DIR$/RemoteSwitcher/res/pins" />
-        <option value="$PROJECT_DIR$/RemoteSwitcher/res/index.html" />
         <option value="$PROJECT_DIR$/RemoteSwitcher/src/GPIOController.py" />
+        <option value="$PROJECT_DIR$/RemoteSwitcher/res/index.html" />
       </list>
     </option>
   </component>
@@ -734,22 +734,22 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/RemoteSwitcher/res/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="344">
-          <caret line="152" column="40" lean-forward="false" selection-start-line="152" selection-start-column="40" selection-end-line="152" selection-end-column="40" />
-          <folding>
-            <element signature="n#script#0;n#body#0;n#html#0;n#!!top" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/RemoteSwitcher/src/GPIOController.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="272">
           <caret line="83" column="38" lean-forward="true" selection-start-line="83" selection-start-column="38" selection-end-line="83" selection-end-column="38" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RemoteSwitcher/res/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="344">
+          <caret line="260" column="25" lean-forward="true" selection-start-line="260" selection-start-column="25" selection-end-line="260" selection-end-column="25" />
+          <folding>
+            <element signature="n#script#0;n#body#0;n#html#0;n#!!top" expanded="false" />
           </folding>
         </state>
       </provider>
