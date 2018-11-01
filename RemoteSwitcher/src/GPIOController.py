@@ -72,6 +72,7 @@ class OutputPin(Pin):
 
     __autoOffTime = 0
     __timeLeft = 0
+    __defaultState = 0;
 
     def __init__(self, pinName, pinNumber, autoOffTime=0, pinState=False):
         print('OutputPin ', pinName, 'number ', pinNumber, "autoOffTime", autoOffTime)
@@ -80,6 +81,7 @@ class OutputPin(Pin):
         #GPIO.setmode(GPIO.BCM)
         #GPIO.setup(int(pinNumber), GPIO.OUT)
         self.__setState(pinState)
+        self.__defaultState(pinState)
 
     def setPinState(self,state):
         self.__timeLeft = 1
@@ -102,7 +104,7 @@ class OutputPin(Pin):
         if self.__timeLeft == 0:
             return
         if self.__timeLeft >= self.__autoOffTime:
-            self.__setState(not self._pinState)
+            self.__setState(self.__defaultState) #set default pin state after time
             self.__timeLeft = 0
         else:
             self.__timeLeft += checkInterval
