@@ -81,7 +81,7 @@ class OutputPin(Pin):
         #GPIO.setmode(GPIO.BCM)
         #GPIO.setup(int(pinNumber), GPIO.OUT)
         self.__setState(pinState)
-        self.__defaultState(pinState)
+        self.__defaultState = pinState
 
     def setPinState(self,state):
         self.__timeLeft = 1
