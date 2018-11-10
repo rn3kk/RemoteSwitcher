@@ -18,6 +18,9 @@
      padding-right: 7px;
      float: left;
    }
+   .autoriseInput {
+     width: 114px;
+   }
    .buttonBmz {
      width: 40px;
      height: 20px;
@@ -73,25 +76,36 @@
      font-weight: bold;
      margin-top: 7px;
    }
+   .disabledDiv {
+     pointer-events: none;
+     opacity: 0.4;
+   }
+
   </style>     
 </head>
   <body class="body">
   <div id="main">
-    <div class="buttonPanel">
-      <button id="1" class="buttonBmz">160</button>
-      <button id="2" class="buttonBmz">90</button>
-      <button id="3" class="buttonBmz">80</button>
-      <button id="4" class="buttonBmz">40</button>
-      <button id="5" class="buttonBmz">30</button>
-      <button id="6" class="buttonBmz">20</button>
-      <button id="7" class="buttonBmz">17</button>
-      <button id="8" class="buttonBmz">15</button>
-      <button id="9" class="buttonBmz">12</button>
-      <button id="10" class="buttonBmz">10</button>
-      <button id="Apply" class="buttonOff">Apply</button>
-      <button id="Reset" class="buttonOff">Reset</button>
+    <div class="buttonPanel" id="autoriseFormDiv">
+        <form method="post" autocomplete="on" id="autorizeForm" action="/login" enctype="application/x-www-form-urlencoded">
+        Name:<br>
+        <input type="text" name="login" class="autoriseInput"><br>
+        Password:<br>
+        <input type="password" name="password" class="autoriseInput"> <br>
+        <input type="submit" value="Send" class="buttonOff" id="submitForm">
+      </form>
     </div>
-
+    <div class="buttonPanel" id="bmzPanel" >
+      <button id="1" class="buttonBmz">1</button>
+      <button id="2" class="buttonBmz">2</button>
+      <button id="3" class="buttonBmz">3</button>
+      <button id="4" class="buttonBmz">4</button>
+      <button id="5" class="buttonBmz">5</button>
+      <button id="6" class="buttonBmz">6</button>
+      <button id="7" class="buttonBmz">7</button>
+      <button id="8" class="buttonBmz">8</button>
+      <button id="9" class="buttonBmz">9</button>
+      <button id="10" class="buttonBmz">10</button>
+    </div>
   </div>
 
 <script type="text/javascript">
@@ -102,14 +116,16 @@
 </script>
 <script type="text/JavaScript">
 
-  var bmz = []; //названия БМЗ, берется из файла конфигурации
+  var bmz = [];
   var selectedBMZ;
 
   function loadBMZ(jsonPinsOutput) {
+     var haveBmz =0;
      for (var i = 0; i < jsonPinsOutput.length; i++) {
        var name = jsonPinsOutput[i].name;
        if (name == "bmz"){
-         newBMZ = jsonPinsOutput[i].state
+         haveBmz =1;
+         newBMZ = jsonPinsOutput[i].state;
          if(selectedBMZ != newBMZ){
            var buttonOld = document.getElementById(selectedBMZ);
            var buttonNew = document.getElementById(newBMZ);
@@ -123,6 +139,14 @@
          }
          break;
        }
+     }
+
+     var element = document.getElementById("bmzPanel");
+     if(haveBmz == 1) {
+       element.style.display = 'block';
+     }
+     else {
+       element.style.display = 'none';
      }
   }
 
@@ -224,8 +248,6 @@
       console.log("Ошибка " + error.message);
   };
 
-  //window.onload = checkWebSocket
-
   function gpioState(){
     var jsonRequestStr = {"request":"getGpioState"};
     var strJson = JSON.stringify(jsonRequestStr);
@@ -265,6 +287,11 @@
   function onClickHandler(e) {
    var event = e || window.event;
    var t = e.target || e.srcElement;
+
+   if (t.id == "submitForm"){
+
+   }
+
    switch(t.className) {
      case 'buttonBmz':
        setBmz(t.id); 
@@ -280,7 +307,6 @@
 
   var mainElem=document.getElementById("main"); 
   mainElem.addEventListener('click', onClickHandler, false);                  
-
 
 </script>
 
