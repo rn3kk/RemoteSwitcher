@@ -9,10 +9,10 @@
     }
     .buttonPanel {
      width: 128px;
-     height: 115px; 
-     background: black; 
-     border: 3px solid #fff; 
-     border-radius: 7px;  
+     height: 115px;
+     background: black;
+     border: 3px solid #fff;
+     border-radius: 7px;
      margin: 7px;
      padding-left: 7px;
      padding-right: 7px;
@@ -21,51 +21,7 @@
    .autoriseInput {
      width: 114px;
    }
-   .buttonBmz {
-     width: 40px;
-     height: 20px;
-     text-align: center;
-     background: -webkit-gradient(linear, 0 0, 0 100%, from(black), to(#666363));
-     font-family: Arial;
-     font-size: 11px;
-     color: white;
-     font-weight: bold;
-     margin-top: 7px;    
-   }
-   .activeBmz {
-     width: 40px;
-     height: 20px;
-     text-align: center;
-     background: -webkit-gradient(linear, 0 0, 0 100%, from(green), to(#666363));
-     font-family: Arial;
-     font-size: 11px;
-     color: white;
-     font-weight: bold;
-     margin-top: 7px;
-   }
-   .r140_button {
-     width: 40px;
-     height: 20px;
-     text-align: center;
-     background: -webkit-gradient(linear, 0 0, 0 100%, from(black), to(#666363));
-     font-family: Arial;
-     font-size: 10px;
-     color: white;
-     font-weight: bold;
-     margin-top: 7px;    
-   }
-   .buttonOn {
-     width: 40px;
-     height: 20px;
-     text-align: center;
-     background: -webkit-gradient(linear, 0 0, 0 100%, from(green), to(#666363));
-     font-family: Arial;
-     font-size: 10px;
-     color: white;
-     font-weight: bold;
-     margin-top: 7px;
-   }
-   .buttonOff {
+   .buttonSend {
      width: 40px;
      height: 20px;
      text-align: center;
@@ -75,27 +31,21 @@
      color: white;
      font-weight: bold;
      margin-top: 7px;
-   }
-   .disabledDiv {
-     pointer-events: none;
-     opacity: 0.4;
    }
 
-  </style>     
+  </style>
 </head>
+  <iframe width="0" height="0" border="0" name="dummyframe" id="dummyframe"></iframe>
   <body class="body">
   <div id="main">
-    <div class="buttonPanel" id="bmzPanel" >
-      <button id="1" class="buttonBmz">1</button>
-      <button id="2" class="buttonBmz">2</button>
-      <button id="3" class="buttonBmz">3</button>
-      <button id="4" class="buttonBmz">4</button>
-      <button id="5" class="buttonBmz">5</button>
-      <button id="6" class="buttonBmz">6</button>
-      <button id="7" class="buttonBmz">7</button>
-      <button id="8" class="buttonBmz">8</button>
-      <button id="9" class="buttonBmz">9</button>
-      <button id="10" class="buttonBmz">10</button>
+    <div class="buttonPanel" id="autoriseFormDiv">
+        <form name="autoriseForm">
+        Name:<br>
+        <input type="text" id="login" class="autoriseInput"><br>
+        Password:<br>
+        <input type="password" id="password" class="autoriseInput"> <br>
+        <input value="Send" class="buttonSend">
+      </form>
     </div>
   </div>
 
@@ -107,197 +57,28 @@
 </script>
 <script type="text/JavaScript">
 
-  var bmz = [];
-  var selectedBMZ;
-
-  function loadBMZ(jsonPinsOutput) {
-     var haveBmz =0;
-     for (var i = 0; i < jsonPinsOutput.length; i++) {
-       var name = jsonPinsOutput[i].name;
-       if (name == "bmz"){
-         haveBmz =1;
-         newBMZ = jsonPinsOutput[i].state;
-         if(selectedBMZ != newBMZ){
-           var buttonOld = document.getElementById(selectedBMZ);
-           var buttonNew = document.getElementById(newBMZ);
-           if(buttonOld != null) {
-             buttonOld.className = "buttonBmz";
-           }
-           if(buttonNew != null){
-             buttonNew.className = "activeBmz";
-           }
-           selectedBMZ = newBMZ;
-         }
-         break;
-       }
-     }
-
-     var element = document.getElementById("bmzPanel");
-     if(haveBmz == 1) {
-       element.style.display = 'block';
-     }
-     else {
-       element.style.display = 'none';
-     }
-  }
-
-  function receiveGPIOState(jsonState) {
-      var now = new Date();
-      var result = jsonState.result;
-      if (result == "true") {
-        console.log("receiveGPIOState is OK");
-      }
-      else {
-        console.log("receiveGPIOState is ERROR");
-      }
-      console.log(now)
-
-      if (bmz.length ==0) {
-        loadBMZ(jsonState.pinsOutput);
-      }
-
-      for (var i = 0; i < jsonState.pinsOutput.length; i++) {
-          var pin = jsonState.pinsOutput[i];
-          var state = pin.state;
-          var btn_id = document.getElementById(pin.name);
-          if(btn_id != null){
-            if(state == true){
-              btn_id.className = "buttonOn";
-            }
-            else {
-              btn_id.className = "buttonOff";
-            }
-          }
-      }
-      console.log('\n')
-      for (var i = 0; i < jsonState.pinsInput.length; i++) {
-          var pin = jsonState.pinsInput[i]
-        //  console.log(pin.name);
-      }
-      console.log('\n')
-  };
-
-  function changeGPIOState(json) {
-    var result = json.result
-    if (result == "true") {
-      console.log("changeGPIOState is OK");
-    }
-    else {
-      console.log("changeGPIOState is ERROR");
-    }
-  }
-
-  var serverLocation = window.location.hostname;
-  var socket = new WebSocket("ws://" + serverLocation + ":8080/data");
-
-  function writeToWebSocket(data){
-    socket.send(data);
-  }
-
-  function checkWebSocket() {
-      console.log("page load")
-  };
-
-  socket.onopen = function() {
-      console.log("Соединение установлено.");
-  };
-
-  socket.onclose = function(event) {
-      if (event.wasClean) {
-           console.log('Соединение закрыто чисто');
-      } else {
-           console.log('Обрыв соединения'); // например, "убит" процесс сервера
-      }
-      console.log('Код: ' + event.code + ' причина: ' + event.reason);
-  };
-
-  socket.onmessage = function(event) {
-      console.log("receive message");
-      var blob = event.data;
-
-      var reader = new FileReader();
-      var jsonObj = null;
-      reader.onloadend = function() {
-        jsonObj = JSON.parse(reader.result)
-        if(jsonObj != null) {
-          var requestType = jsonObj.type
-          if (requestType == "getGpioState") {
-            receiveGPIOState(jsonObj);
-          }
-          else if(requestType == "changeGpioState") {
-            changeGPIOState(jsonObj);
-          }
-        }
-        else {
-          console.log("json null");
-        }
-      }
-      reader.readAsBinaryString(blob);
-  };
-
-  socket.onerror = function(error) {
-      console.log("Ошибка " + error.message);
-  };
-
-  function gpioState(){
-    var jsonRequestStr = {"request":"getGpioState"};
-    var strJson = JSON.stringify(jsonRequestStr);
-    writeToWebSocket(strJson);
-  }
-
-  setInterval("gpioState()",2000);
-  
-  function change_but(){
-    document.getElementById('test_but').onclick=function(){
-      var jsonRequestStr = {"request":"changeGpioState", "name":"10m"};
-      var strJson = JSON.stringify(jsonRequestStr);
-      socket.send(strJson);
-    }
-  }    
-
-  function setBmz(bmz){
-    var jsonRequest = {
-      request: "changeBmz",
-      bmzNumber: bmz	
-    }
-    var strJson = JSON.stringify(jsonRequest);
-    socket.send(strJson);
-    console.log('set bmz:' + strJson);
-  }
-
-  function changeRemoteBtn(apply){
-   var jsonRequest = {
-      request: "changeGpioState",
-      name: apply	
-    }
-    var strJson = JSON.stringify(jsonRequest);
-    socket.send(strJson);
-    console.log('changeRemoteBtn:' + strJson);
-  }
-
   function onClickHandler(e) {
    var event = e || window.event;
    var t = e.target || e.srcElement;
-
-   if (t.id == "submitForm"){
-
-   }
-
    switch(t.className) {
-     case 'buttonBmz':
-       setBmz(t.id); 
-       break; 
-     case 'buttonOn' :
-       changeRemoteBtn(t.id);
-       break;
-     case 'buttonOff' :
-       changeRemoteBtn(t.id);
+     case 'buttonSend':
+       var xhr = new XMLHttpRequest();
+
+       var name = document.getElementById("login").value;
+       var passw = document.getElementById("password").value;
+       var body = 'login=' + encodeURIComponent(name) + '&password=' + encodeURIComponent(passw);
+       xhr.open("POST", '/login', true);
+       xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+       xhr.onload = function () {
+         console.log(this.responseText);
+       };
+       xhr.send(body);
        break;
    }
   }
 
-  var mainElem=document.getElementById("main"); 
-  mainElem.addEventListener('click', onClickHandler, false);                  
+  var mainElem=document.getElementById("main");
+  mainElem.addEventListener('click', onClickHandler, false);
 
 </script>
 
