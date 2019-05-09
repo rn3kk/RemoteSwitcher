@@ -188,7 +188,7 @@
   }
 
   var serverLocation = window.location.hostname;
-  var socket = new WebSocket("ws://" + serverLocation + ":8080/data");
+  var socket = new WebSocket("ws://" + serverLocation + ":8081/data");
 
   function writeToWebSocket(data){
     socket.send(data);
