@@ -10,3 +10,9 @@
 install python 2.7.9
 install pip
 install eventlet
+
+У сервера есть авторизация, чтобы никто кроме Вас не мог переключить ничего в усилителе
+![alt text](https://github.com/rn3kk/RemoteSwitcher/blob/master/img/autorise.PNG?raw=true)
+
+Так выглядит окно управления. Помимо БМЗ можно включать удаленно трансивер или другие приборы
+![alt text](https://github.com/rn3kk/RemoteSwitcher/blob/master/img/remswitcher.PNG?raw=true)
