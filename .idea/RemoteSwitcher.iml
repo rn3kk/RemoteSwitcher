@@ -7,7 +7,7 @@
       <excludeFolder url="file://$MODULE_DIR$/RemoteSwitcher" />
       <excludeFolder url="file://$MODULE_DIR$/RemoteSwitcher/res" />
     </content>
-    <orderEntry type="inheritedJdk" />
+    <orderEntry type="jdk" jdkName="Python 2.7" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
   <component name="TestRunnerService">

@@ -97,6 +97,8 @@
       <button id="9" class="buttonBmz">9</button>
       <button id="10" class="buttonBmz">10</button>
     </div>
+    <div class="buttonPanel" id="outputButtonPanel" style="display: none;">
+    </div>
   </div>
 
 <script type="text/javascript">
@@ -107,8 +109,8 @@
 </script>
 <script type="text/JavaScript">
 
-  var bmz = [];
-  var selectedBMZ;
+  var selectedBMZ ;
+  var outputButtonIsLoaded = false;
 
   function loadBMZ(jsonPinsOutput) {
      var haveBmz =0;
@@ -139,6 +141,36 @@
      else {
        element.style.display = 'none';
      }
+     bmzIsLoaded = true;
+  }
+
+   function loadBtn(jsonPinsOutput) {
+     var element = document.getElementById("outputButtonPanel");
+     var haveBtn = 0;
+     for (var i = 0; i < jsonPinsOutput.length; i++) {
+       var name = jsonPinsOutput[i].name;
+       if (name != "bmz"){
+         var state = jsonPinsOutput[i].state;
+         var button = document.createElement('button');
+         if (state == true){
+           button.className = "buttonOn";
+         }
+         else {
+           button.className = "buttonOff";
+         }
+         button.id = name;
+         button.innerHTML = name;
+         element.append(button);
+         haveBtn = 1;
+       }
+     }
+     if(haveBtn == 1) {
+       element.style.display = 'block';
+     }
+     else {
+       element.style.display = 'none';
+     }
+     outputButtonIsLoaded = true;
   }
 
   function receiveGPIOState(jsonState) {
@@ -152,9 +184,12 @@
       }
       console.log(now)
 
-      if (bmz.length ==0) {
-        loadBMZ(jsonState.pinsOutput);
+      loadBMZ(jsonState.pinsOutput);
+
+      if (outputButtonIsLoaded != true) {
+        loadBtn(jsonState.pinsOutput);
       }
+
 
       for (var i = 0; i < jsonState.pinsOutput.length; i++) {
           var pin = jsonState.pinsOutput[i];

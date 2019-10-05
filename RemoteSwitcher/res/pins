@@ -5,8 +5,10 @@
         { "name":"bit3", "gpioNumber":"7", "auto_off":0, "state":true, "type":"bmz" },
         { "name":"bit4", "gpioNumber":"0", "auto_off":0, "state":false, "type":"bmz" },
 
-        { "name":"Apply", "gpioNumber":"2", "auto_off":5, "state":false, "type":"r140_button" },
-        { "name":"Reset", "gpioNumber":"3", "auto_off":5, "state":false, "type":"r140_button"}
+        { "name":"ON", "gpioNumber":"3", "auto_off":2, "state":false, "type":"exhange"},
+        { "name":"OFF", "gpioNumber":"3", "auto_off":2, "state":false, "type":"exhange"},
+        { "name":"TRX", "gpioNumber":"2", "auto_off":0, "state":false, "type":"exhange" },
+        { "name":"13.8V", "gpioNumber":"2", "auto_off":0, "state":false, "type":"exhange" }
     ],
 
     "pinsInput": [

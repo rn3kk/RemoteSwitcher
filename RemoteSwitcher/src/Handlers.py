@@ -8,7 +8,7 @@ from Users import Users
 import eventlet
 from eventlet import wsgi
 from eventlet import websocket
-from eventlet.support import six
+#from eventlet.support import six
 
 # demo app
 import os
@@ -56,7 +56,7 @@ class HttpRequestHandler(Thread):
             req = conn.recv(1024)
             if not req:
                 print("request is empty")
-                break
+            #   break
             if not self.checkAutorisation(req):
                 conn.send(self.getLoginPage())
             else:

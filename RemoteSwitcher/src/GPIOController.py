@@ -188,12 +188,12 @@ class GPIOController(Thread):
     def getGpioState(self):
         input, output = [], []
         for outputPin in self.__outputPinsList:
-            str = {NAME: outputPin.getPinName(), STATE: outputPin.getPinState(), TYPE: outputPin.getPinType(), GROUP: outputPin.getPinGroup() }
+            str = {NAME: outputPin.getPinName(), STATE: outputPin.getPinState(), TYPE: outputPin.getPinType(), GROUP: outputPin.getPinGroup()}
             output.append(str)
         if self.__bmz <> None:
             output.append(self.__bmz.toOutputPin())
         for inputPin in self.__inputPinsList:
-            str = {NAME: inputPin.getPinName(), STATE: inputPin.getPinState(), TYPE: inputPin.getPinType(), GROUP: inputPin.getPinGroup() }
+            str = {NAME: inputPin.getPinName(), STATE: inputPin.getPinState(), TYPE: inputPin.getPinType(), GROUP: inputPin.getPinGroup()}
             input.append(str)
         response = {}
         response[TYPE] = GET_GPIO_STATE
