@@ -3,7 +3,7 @@ class Users:
 
     def __init__(self):
         self.__userList = []
-        with open('../res/login') as f:
+        with open('../res/users') as f:
             for line in f:
                 line = line.rstrip("\n")
                 if len(line) > 2 :
