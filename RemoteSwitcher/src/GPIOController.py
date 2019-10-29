@@ -95,6 +95,7 @@ class OutputPin(Pin):
     def __setState(self, state):
         self._pinState = state
         try:
+            GPIO.setwarnings(False)
             GPIO.setmode(GPIO.BCM)
             GPIO.setup(int(self._pinNumber), GPIO.OUT)
             GPIO.output(int(self._pinNumber), bool(state))
