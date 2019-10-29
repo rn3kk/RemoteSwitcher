@@ -2,7 +2,7 @@ import json
 import time
 from enum import Enum
 
-#import RPi.GPIO as GPIO
+import RPi.GPIO as GPIO
 from threading import Thread
 
 __metaclass__ = type
@@ -67,12 +67,12 @@ class InputPin(Pin):
     def __init__(self, pinName, pinNumber, pinGroup):
        print('InputPin ', pinName, 'number ', pinNumber)
        super(InputPin, self).__init__(pinName, pinNumber, PinType.INPUT, pinGroup)
- #      GPIO.setmode(GPIO.BCM)
- #      GPIO.setup(int(pinNumber), GPIO.IN)
+       GPIO.setmode(GPIO.BCM)
+       GPIO.setup(int(pinNumber), GPIO.IN)
 
     def updatePinState(self):
         self._pinState = 1
- #       self._pinState = GPIO.input(int(self._pinNumber))
+        self._pinState = GPIO.input(int(self._pinNumber))
 
 class OutputPin(Pin):
 
@@ -95,9 +95,9 @@ class OutputPin(Pin):
     def __setState(self, state):
         self._pinState = state
         try:
-            #GPIO.setmode(GPIO.BCM)
-            #GPIO.setup(int(self._pinNumber), GPIO.OUT)
-            #GPIO.output(int(self._pinNumber), bool(state))
+            GPIO.setmode(GPIO.BCM)
+            GPIO.setup(int(self._pinNumber), GPIO.OUT)
+            GPIO.output(int(self._pinNumber), bool(state))
             print('New statete for OutputPin ', self.getPinName(), 'number ', self.getPinNumber(), 'sate ', self.getPinState() )
         except Exception:
             print('Error: output pin state NOT changed')
