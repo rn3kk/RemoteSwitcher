@@ -16,3 +16,6 @@ install eventlet
 
 Так выглядит окно управления. Помимо БМЗ можно включать удаленно трансивер или другие приборы
 ![alt text](https://github.com/rn3kk/RemoteSwitcher/blob/master/img/remswitcher.PNG?raw=true)
+
+Из распберри берется код волны в бинармном виде и дешифратором в волну, которую необходимо включить.
+![alt text](https://github.com/rn3kk/RemoteSwitcher/blob/master/img/deshifrator.jpg?raw=true)
