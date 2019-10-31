@@ -1,18 +1,18 @@
 {
     "pinsOutput": [
-        { "name":"bit1", "gpioNumber":"8", "auto_off":0, "state":false, "type":"bmz" },
-        { "name":"bit2", "gpioNumber":"9", "auto_off":0, "state":false, "type":"bmz" },
-        { "name":"bit3", "gpioNumber":"7", "auto_off":0, "state":true, "type":"bmz" },
-        { "name":"bit4", "gpioNumber":"0", "auto_off":0, "state":false, "type":"bmz" },
+        { "name":"bit1", "gpioNumber":"17", "auto_off":0, "state":false, "type":"bmz" },
+        { "name":"bit2", "gpioNumber":"4", "auto_off":0, "state":false, "type":"bmz" },
+        { "name":"bit3", "gpioNumber":"3", "auto_off":0, "state":true, "type":"bmz" },
+        { "name":"bit4", "gpioNumber":"2", "auto_off":0, "state":false, "type":"bmz" },
 
-        { "name":"PWR", "gpioNumber":"2", "auto_off":0, "state":false, "type":"exhange"},
-        { "name":"TRX", "gpioNumber":"3", "auto_off":0, "state":false, "type":"exhange" },
-        { "name":"13.8V", "gpioNumber":"1", "auto_off":0, "state":false, "type":"exhange" }
+        { "name":"PWR", "gpioNumber":"27", "auto_off":0, "state":false, "type":"exhange"},
+        { "name":"TRX", "gpioNumber":"22", "auto_off":0, "state":false, "type":"exhange" },
+        { "name":"13.8V", "gpioNumber":"10", "auto_off":0, "state":false, "type":"exhange" }
     ],
 
     "pinsInput": [
-        { "name":"P-140 is ready", "gpioNumber":"4", "type":"r140_status_pin" },
-        { "name":"P-140 protection", "gpioNumber":"5", "type":"r140_status_pin" },
-        { "name":"Power 220B is off", "gpioNumber":"6", "type":"220V_status" }
+        { "name":"P-140 is ready", "gpioNumber":"9", "type":"r140_status_pin" },
+        { "name":"P-140 protection", "gpioNumber":"1", "type":"r140_status_pin" }
+
     ]
 }

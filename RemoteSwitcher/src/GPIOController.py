@@ -250,11 +250,11 @@ class Bmz:
 
         for x in range(4-len(bitfield)):
           bitfield = [0] + bitfield
-
-        self.__pin0.setPinState(bitfield[0])
-        self.__pin1.setPinState(bitfield[1])
-        self.__pin2.setPinState(bitfield[2])
-        self.__pin3.setPinState(bitfield[3])
+	print(bitfield)
+        self.__pin0.setPinState(int(bitfield[0]))
+        self.__pin1.setPinState(int(bitfield[1]))
+        self.__pin2.setPinState(int(bitfield[2]))
+        self.__pin3.setPinState(int(bitfield[3]))
 
     def toOutputPin(self):
         bmzNum = 0
