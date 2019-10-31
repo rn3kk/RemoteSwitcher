@@ -18,4 +18,4 @@ install eventlet
 ![alt text](https://github.com/rn3kk/RemoteSwitcher/blob/master/img/remswitcher.PNG?raw=true)
 
 Из распберри берется код волны в бинармном виде и дешифратором в волну, которую необходимо включить.
-![alt text](https://github.com/rn3kk/RemoteSwitcher/blob/master/img/deshifrator.JPG?raw=true)
+![alt text](https://github.com/rn3kk/RemoteSwitcher/blob/master/img/deshifrator.JPG)
