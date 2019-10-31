@@ -1,9 +1,9 @@
 {
     "pinsOutput": [
-        { "name":"bit1", "gpioNumber":"17", "auto_off":0, "state":false, "type":"bmz" },
-        { "name":"bit2", "gpioNumber":"4", "auto_off":0, "state":false, "type":"bmz" },
-        { "name":"bit3", "gpioNumber":"3", "auto_off":0, "state":true, "type":"bmz" },
-        { "name":"bit4", "gpioNumber":"2", "auto_off":0, "state":false, "type":"bmz" },
+        { "name":"bit1", "gpioNumber":"2", "auto_off":0, "state":false, "type":"bmz" },
+        { "name":"bit2", "gpioNumber":"3", "auto_off":0, "state":false, "type":"bmz" },
+        { "name":"bit3", "gpioNumber":"4", "auto_off":0, "state":false, "type":"bmz" },
+        { "name":"bit4", "gpioNumber":"17", "auto_off":0, "state":false, "type":"bmz" },
 
         { "name":"PWR", "gpioNumber":"27", "auto_off":0, "state":false, "type":"exhange"},
         { "name":"TRX", "gpioNumber":"22", "auto_off":0, "state":false, "type":"exhange" },
