@@ -19,3 +19,5 @@ install eventlet
 
 Из распберри берется код волны в бинармном виде и дешифратором в волну, которую необходимо включить.
 ![alt text](https://github.com/rn3kk/RemoteSwitcher/blob/master/img/deshifrator.png)
+
+[![IMAGE ALT TEXT HERE](https://github.com/rn3kk/RemoteSwitcher/blob/master/img/youtube.PNG)](https://youtu.be/fNXGPa8lA0I)
