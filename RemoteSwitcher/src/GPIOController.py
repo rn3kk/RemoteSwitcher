@@ -92,9 +92,9 @@ class OutputPin(Pin):
 
     def getPinState(self):
         if self.__inversion:
-            return not self.getPinState()
+            return not super(OutputPin, self).getPinState()
         else:
-            return self.getPinState()
+            return super(OutputPin, self).getPinState()
 
     def setPinState(self, state):
         self.__timeLeft = 1
