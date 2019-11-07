@@ -87,7 +87,10 @@ class OutputPin(Pin):
         super(OutputPin, self).__init__(pinName, pinNumber, PinType.OUTPUT, pinGroup)
         self.__autoOffTime = autoOffTime
         self.__inversion = inversion
-        self.__defaultState = pinState
+        if inversion:
+            self.__defaultState = not pinState
+        else:
+            self.__defaultState = pinState
         self.__setState(pinState)
 
     def getPinState(self):
@@ -103,18 +106,16 @@ class OutputPin(Pin):
 
 
     def __setState(self, state):
-
         try:
             GPIO.setwarnings(False)
             GPIO.setmode(GPIO.BCM)
             GPIO.setup(int(self._pinNumber), GPIO.OUT)
+
             if self.__inversion:
                 self._pinState = not state
-                GPIO.output(int(self._pinNumber), not bool(state))
-
             else:
                 self._pinState = state
-                GPIO.output(int(self._pinNumber), bool(state))
+            GPIO.output(int(self._pinNumber), self._pinState)
             print('New statete for OutputPin ', self.getPinName(), 'number ', self.getPinNumber(), 'sate ', self.getPinState() )
         except Exception:
             print('Error: output pin state NOT changed')
@@ -265,9 +266,8 @@ class Bmz:
 
     def setActiveBMZ(self, activeBMZ):
         bitfield = list(bin(activeBMZ))[2:]
-
         for x in range(4-len(bitfield)):
-          bitfield = [0] + bitfield
+            bitfield = [0] + bitfield
 	    print(bitfield)
         self.__pin0.setPinState(int(bitfield[0]))
         self.__pin1.setPinState(int(bitfield[1]))
