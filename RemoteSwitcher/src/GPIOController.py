@@ -97,6 +97,7 @@ class OutputPin(Pin):
             return super(OutputPin, self).getPinState()
 
     def setPinState(self, state):
+        print('old state ',  self.getPinState(), ' new state ', state)
         self.__timeLeft = 1
         self. __setState(state)
 
@@ -107,7 +108,7 @@ class OutputPin(Pin):
             GPIO.setwarnings(False)
             GPIO.setmode(GPIO.BCM)
             GPIO.setup(int(self._pinNumber), GPIO.OUT)
-            if self.__inversion == True:
+            if self.__inversion:
                 GPIO.output(int(self._pinNumber), not bool(state))
             else:
                 GPIO.output(int(self._pinNumber), bool(state))
