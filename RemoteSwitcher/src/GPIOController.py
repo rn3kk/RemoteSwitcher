@@ -86,9 +86,9 @@ class OutputPin(Pin):
         print('OutputPin ', pinName, 'number ', pinNumber, "autoOffTime", autoOffTime)
         super(OutputPin, self).__init__(pinName, pinNumber, PinType.OUTPUT, pinGroup)
         self.__autoOffTime = autoOffTime
-        self.__setState(pinState)
-        self.__defaultState = pinState
         self.__inversion = inversion
+        self.__defaultState = pinState
+        self.__setState(pinState)
 
     def getPinState(self):
         if self.__inversion:
@@ -103,14 +103,17 @@ class OutputPin(Pin):
 
 
     def __setState(self, state):
-        self._pinState = state
+
         try:
             GPIO.setwarnings(False)
             GPIO.setmode(GPIO.BCM)
             GPIO.setup(int(self._pinNumber), GPIO.OUT)
             if self.__inversion:
+                self._pinState = not state
                 GPIO.output(int(self._pinNumber), not bool(state))
+
             else:
+                self._pinState = state
                 GPIO.output(int(self._pinNumber), bool(state))
             print('New statete for OutputPin ', self.getPinName(), 'number ', self.getPinNumber(), 'sate ', self.getPinState() )
         except Exception:
@@ -203,7 +206,8 @@ class GPIOController(Thread):
     def getGpioState(self):
         input, output = [], []
         for outputPin in self.__outputPinsList:
-            str = {NAME: outputPin.getPinName(), STATE: outputPin.getPinState(), TYPE: outputPin.getPinType(), GROUP: outputPin.getPinGroup()}
+            str = {NAME: outputPin.getPinName(), STATE: outputPin.getPinState(), TYPE: outputPin.getPinType(),
+                   GROUP: outputPin.getPinGroup()}
             output.append(str)
         if self.__bmz <> None:
             output.append(self.__bmz.toOutputPin())
@@ -264,7 +268,7 @@ class Bmz:
 
         for x in range(4-len(bitfield)):
           bitfield = [0] + bitfield
-	print(bitfield)
+	    print(bitfield)
         self.__pin0.setPinState(int(bitfield[0]))
         self.__pin1.setPinState(int(bitfield[1]))
         self.__pin2.setPinState(int(bitfield[2]))
