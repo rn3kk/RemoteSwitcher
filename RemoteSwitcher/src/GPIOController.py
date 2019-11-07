@@ -15,6 +15,7 @@ GPIO_NUMBER = "gpioNumber"
 AUTO_OFF = "auto_off"
 STATE = "state"
 TYPE = "type"
+INVERSION = "inversion"
 GROUP = "group"
 REQUEST = "request"
 GET_GPIO_STATE = "getGpioState"
@@ -79,15 +80,23 @@ class OutputPin(Pin):
     __autoOffTime = 0
     __timeLeft = 0
     __defaultState = 0;
+    __inversion = False;
 
-    def __init__(self, pinName, pinNumber, pinGroup, autoOffTime=0, pinState=False):
+    def __init__(self, pinName, pinNumber, pinGroup, autoOffTime=0, pinState=False, inversion=False):
         print('OutputPin ', pinName, 'number ', pinNumber, "autoOffTime", autoOffTime)
         super(OutputPin, self).__init__(pinName, pinNumber, PinType.OUTPUT, pinGroup)
         self.__autoOffTime = autoOffTime
         self.__setState(pinState)
         self.__defaultState = pinState
+        self.__inversion = inversion
 
-    def setPinState(self,state):
+    def getPinState(self):
+        if self.__inversion:
+            return not self.getPinState()
+        else:
+            return self.getPinState()
+
+    def setPinState(self, state):
         self.__timeLeft = 1
         self. __setState(state)
 
@@ -98,7 +107,10 @@ class OutputPin(Pin):
             GPIO.setwarnings(False)
             GPIO.setmode(GPIO.BCM)
             GPIO.setup(int(self._pinNumber), GPIO.OUT)
-            GPIO.output(int(self._pinNumber), bool(state))
+            if self.__inversion == True:
+                GPIO.output(int(self._pinNumber), not bool(state))
+            else:
+                GPIO.output(int(self._pinNumber), bool(state))
             print('New statete for OutputPin ', self.getPinName(), 'number ', self.getPinNumber(), 'sate ', self.getPinState() )
         except Exception:
             print('Error: output pin state NOT changed')
@@ -153,18 +165,19 @@ class GPIOController(Thread):
                 autoOff = 0
             state = pin.get(STATE)
             type = pin.get(TYPE)
+            inversion = pin.get(INVERSION)
 
             if type == "bmz":
                 if name == "bit1":
-                    bmzPin0 = OutputPin(name, gpio_number, type, autoOff, state)
+                    bmzPin0 = OutputPin(name, gpio_number, type, autoOff, state, inversion)
                 if name == "bit2":
-                    bmzPin1 = OutputPin(name, gpio_number, type, autoOff, state)
+                    bmzPin1 = OutputPin(name, gpio_number, type, autoOff, state, inversion)
                 if name == "bit3":
-                    bmzPin2 = OutputPin(name, gpio_number, type, autoOff, state)
+                    bmzPin2 = OutputPin(name, gpio_number, type, autoOff, state, inversion)
                 if name == "bit4":
-                    bmzPin3 = OutputPin(name, gpio_number, type, autoOff, state)
+                    bmzPin3 = OutputPin(name, gpio_number, type, autoOff, state, inversion)
             else:
-                self.__outputPinsList.append(OutputPin(name, gpio_number, type, autoOff, state))
+                self.__outputPinsList.append(OutputPin(name, gpio_number, type, autoOff, state, inversion))
 
         if not (bmzPin0 is None) and not (bmzPin1 is None) and not (bmzPin2 is None) and not (bmzPin3 is None):
             self.__bmz = Bmz(bmzPin0, bmzPin1, bmzPin2, bmzPin3)
