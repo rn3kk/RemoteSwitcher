@@ -7,12 +7,15 @@
 
         { "name":"PWR", "gpioNumber":"27", "auto_off":0, "state":false, "type":"exhange", "inversion":true },
         { "name":"TRX", "gpioNumber":"22", "auto_off":0, "state":false, "type":"exhange", "inversion":true  },
-        { "name":"13.8V", "gpioNumber":"10", "auto_off":0, "state":false, "type":"exhange", "inversion":true  }
+        { "name":"13.8V", "gpioNumber":"10", "auto_off":0, "state":false, "type":"exhange", "inversion":true  },
+        { "name":"p1", "gpioNumber":"18", "auto_off":0, "state":false, "type":"exhange", "inversion":true  },
+        { "name":"p2", "gpioNumber":"23", "auto_off":0, "state":false, "type":"exhange", "inversion":true  },
+        { "name":"p3", "gpioNumber":"24", "auto_off":0, "state":false, "type":"exhange", "inversion":true  }
     ],
 
     "pinsInput": [
-        { "name":"P-140 is ready", "gpioNumber":"9", "type":"r140_status_pin" },
-        { "name":"P-140 protection", "gpioNumber":"1", "type":"r140_status_pin" }
+        { "name":"P-140 is ready", "gpioNumber":"8", "type":"r140_status_pin" },
+        { "name":"P-140 protection", "gpioNumber":"7", "type":"r140_status_pin" }
 
     ]
 }
