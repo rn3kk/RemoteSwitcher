@@ -150,7 +150,7 @@ class GPIOController(Thread):
         print("Load pins from file ../res/pins")
         self.__outputPinsList = list()
         self.__inputPinsList = list()
-        filePins = open("../res/pins")
+        filePins = open("/home/pi/RemoteSwitcher//RemoteSwitcher/res/pins")
         data = filePins.read()
         filePins.close()
         jsonPins = json.loads(data)
