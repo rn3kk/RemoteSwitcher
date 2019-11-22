@@ -7,9 +7,9 @@
 Проект представляет собой веб сервер. Запустите проект. Октройте браузер. Наберите адрес http://127.0.0.1:81/ 
 Браузер загрузит страницу управления усилителем мощности
 
-install python 2.7.9
-install pip
-install eventlet
+<br>install python 2.7.9
+<br>install pip
+<br>install eventlet
 
 У сервера есть авторизация, чтобы никто кроме Вас не мог переключить ничего в усилителе
 ![alt text](https://github.com/rn3kk/RemoteSwitcher/blob/master/img/autorise.PNG?raw=true)
