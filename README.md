@@ -13,6 +13,9 @@
 
 У сервера есть авторизация, чтобы никто кроме Вас не мог переключить ничего в усилителе
 ![alt text](https://github.com/rn3kk/RemoteSwitcher/blob/master/img/autorise.PNG?raw=true)
+В файле RemoteSwitcher/RemoteSwitcher/res/users можете добавлять пользователя
+<br>RN3KK:passw
+<br>RL3OH:passw2
 
 Так выглядит окно управления. Помимо БМЗ можно включать удаленно трансивер или другие приборы
 ![alt text](https://github.com/rn3kk/RemoteSwitcher/blob/master/img/remswitcher.PNG?raw=true)
@@ -22,3 +25,5 @@
 
 Ниже видео как сейчас это работает
 [![IMAGE ALT TEXT HERE](https://github.com/rn3kk/RemoteSwitcher/blob/master/img/youtube.PNG)](https://youtu.be/fNXGPa8lA0I)
+
+
