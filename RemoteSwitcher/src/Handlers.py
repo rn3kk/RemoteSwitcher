@@ -34,8 +34,6 @@ HTTP_BA_TAG = 'Authorization: Basic '
 
 LOGIN_REQ = "login="
 
-LOGIN = "rn3kk:admin"
-
 class HttpRequestHandler(Thread):
     __users = None
     def __init__(self):
@@ -79,7 +77,7 @@ class HttpRequestHandler(Thread):
         return self.__users.checkUser(pair)
 
     def getIndexPage(self):
-        file = open("../res/index.html")
+        file = open("/home/pi/RemoteSwitcher/RemoteSwitcher/res/index.html")
         data = file.read()
         file.close()
         content_length = len(data)
@@ -142,5 +140,4 @@ class WebSocketHandler(Thread):
 
     def run(self):
         listener = eventlet.listen(('0.0.0.0', 8081))
-        print("\nVisit http://localhost:8080/ in your websocket-capable browser.\n")
         wsgi.server(listener, dispatch)
