@@ -1,3 +1,4 @@
+import sys
 from threading import Thread, Lock
 from GPIOController import GPIOController, REQUEST, GET_GPIO_STATE, CHANGE_GPIO_STATE, NAME, CHANGE_BMZ, BMZ_NUMBER
 import socket
@@ -13,7 +14,6 @@ from eventlet import websocket
 # demo app
 import os
 
-
 class RequestType:
     REQUEST_IS_UNKNOWN = 0
     REQUEST_GET_INDEX_PAGE = 1
@@ -22,7 +22,6 @@ class RequestType:
     REQUEST_LOGIN = 4
     REQUEST_LOGIN_PAGE = 5
     AUTORISATION = 6
-
 
 SEC_WEBSOCKET_KEY = "Sec-WebSocket-Key:"
 SEC_KEY_SUFFIX = "258EAFA5-E914-47DA-95CA-C5AB0DC85B11"
@@ -49,19 +48,22 @@ class HttpRequestHandler(Thread):
         print port
 
         while True:
-            conn, addr = sock.accept()
-            print 'connected:', addr
-            req = conn.recv(1024)
-            if not req:
-                print("request is empty")
-            #   break
-            if not self.checkAutorisation(req):
-                conn.send(self.getLoginPage())
-            else:
-                requestType = self.__getRequestType(req)
-                if requestType == RequestType.REQUEST_GET_INDEX_PAGE:
-                    conn.send(self.getIndexPage())
-            conn.close()
+            try:
+                conn, addr = sock.accept()
+                print 'connected:', addr
+                req = conn.recv(1024)
+                if not req:
+                    print("request is empty")
+                elif not self.checkAutorisation(req):
+                    conn.send(self.getLoginPage())
+                else:
+                    requestType = self.__getRequestType(req)
+                    if requestType == RequestType.REQUEST_GET_INDEX_PAGE:
+                        conn.send(self.getIndexPage())
+                conn.close()
+            except:
+                print "Unexpected error:", sys.exc_info()[0]
+
 
         conn.close()
 
