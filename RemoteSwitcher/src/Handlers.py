@@ -9,9 +9,7 @@ from Users import Users
 import eventlet
 from eventlet import wsgi
 from eventlet import websocket
-#from eventlet.support import six
 
-# demo app
 import os
 
 class RequestType:
@@ -61,10 +59,9 @@ class HttpRequestHandler(Thread):
                     if requestType == RequestType.REQUEST_GET_INDEX_PAGE:
                         conn.send(self.getIndexPage())
                 conn.close()
-            except:
-                print "Unexpected error:", sys.exc_info()[0]
-
-
+            except IOError:
+                print "IO error"
+                conn.close()
         conn.close()
 
     def checkAutorisation(self, req):
@@ -94,12 +91,8 @@ class HttpRequestHandler(Thread):
         if "GET /" in request:
             return RequestType.REQUEST_GET_INDEX_PAGE
 
-#mutex = Lock()
 def sendToWs(ws, text):
-#    mutex.acquire()
-#    print(text)
     ws.send(text)
-#    mutex.release()
 
 @websocket.WebSocketWSGI
 def handle(ws):
@@ -122,8 +115,6 @@ def handle(ws):
             bmzNum = jsonReq[BMZ_NUMBER]
             response = GPIOController.getInstance().changeBmz(bmzNum)
             sendToWs(ws, response)
-        eventlet.sleep(0.1)
-
 
 def dispatch(environ, start_response):
     if environ['PATH_INFO'] == '/data':
