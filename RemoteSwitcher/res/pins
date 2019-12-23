@@ -6,8 +6,8 @@
         { "name":"bit4", "gpioNumber":"17", "auto_off":0, "state":false, "type":"bmz", "inversion":false },
 
         { "name":"PWR", "gpioNumber":"27", "auto_off":0, "state":false, "type":"exhange", "inversion":true },
-        { "name":"TRX", "gpioNumber":"22", "auto_off":0, "state":false, "type":"exhange", "inversion":true  },
-        { "name":"13.8V", "gpioNumber":"10", "auto_off":0, "state":false, "type":"exhange", "inversion":true  },
+        { "name":"13.8v", "gpioNumber":"22", "auto_off":0, "state":false, "type":"exhange", "inversion":true  },
+        { "name":"FleX", "gpioNumber":"10", "auto_off":0, "state":false, "type":"exhange", "inversion":true  },
         { "name":"p1", "gpioNumber":"18", "auto_off":0, "state":false, "type":"exhange", "inversion":true  },
         { "name":"p2", "gpioNumber":"23", "auto_off":0, "state":false, "type":"exhange", "inversion":true  },
         { "name":"p3", "gpioNumber":"24", "auto_off":0, "state":false, "type":"exhange", "inversion":true  }

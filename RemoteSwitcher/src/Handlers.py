@@ -40,10 +40,10 @@ class HttpRequestHandler(Thread):
 
     def run(self):
         self.__users = Users()
-        port = 81
+        port = 80
         sock = socket.socket()
         sock.bind(('', port))
-        sock.listen(1)
+        sock.listen(5)
         print 'waite connection to port '
         print port
 
