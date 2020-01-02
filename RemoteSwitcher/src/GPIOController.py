@@ -151,6 +151,7 @@ class GPIOController(Thread):
         self.__outputPinsList = list()
         self.__inputPinsList = list()
         filePins = open("/home/pi/RemoteSwitcher//RemoteSwitcher/res/pins")
+        #filePins = open("../res/pins")
         data = filePins.read()
         filePins.close()
         jsonPins = json.loads(data)
@@ -268,7 +269,7 @@ class Bmz:
         bitfield = list(bin(activeBMZ))[2:]
         for x in range(4-len(bitfield)):
             bitfield = [0] + bitfield
-	    print(bitfield)
+        print(bitfield)
         self.__pin0.setPinState(int(bitfield[0]))
         self.__pin1.setPinState(int(bitfield[1]))
         self.__pin2.setPinState(int(bitfield[2]))

@@ -53,11 +53,11 @@ class HttpRequestHandler(Thread):
                     if not req:
                         break
                     elif not self.checkAutorisation(req):
-                        conn.send(self.getLoginPage())
+                        conn.sendall(self.getLoginPage())
                     else:
                         requestType = self.__getRequestType(req)
                         if requestType == RequestType.REQUEST_GET_INDEX_PAGE:
-                            conn.send(self.getIndexPage())
+                            conn.sendall(self.getIndexPage())
                 else:
                     break
             conn.close()
@@ -75,6 +75,7 @@ class HttpRequestHandler(Thread):
 
     def getIndexPage(self):
         file = open("/home/pi/RemoteSwitcher/RemoteSwitcher/res/index.html")
+        #file = open("../res/index.html")
         data = file.read()
         file.close()
         content_length = len(data)
