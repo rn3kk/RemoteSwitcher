@@ -1,4 +1,5 @@
 import sys
+import select
 from threading import Thread, Lock
 from GPIOController import GPIOController, REQUEST, GET_GPIO_STATE, CHANGE_GPIO_STATE, NAME, CHANGE_BMZ, BMZ_NUMBER
 import socket
@@ -42,27 +43,24 @@ class HttpRequestHandler(Thread):
         sock = socket.socket()
         sock.bind(('', port))
         sock.listen(5)
-        print 'waite connection to port '
-        print port
-
         while True:
-            try:
-                conn, addr = sock.accept()
-                print 'connected:', addr
-                req = conn.recv(1024)
-                if not req:
-                    print("request is empty")
-                elif not self.checkAutorisation(req):
-                    conn.send(self.getLoginPage())
+            conn, addr = sock.accept()
+            conn.setblocking(False)
+            while True:
+                ready = select.select([conn], [], [], 1)
+                if ready[0]:
+                    req = conn.recv(1024)
+                    if not req:
+                        break
+                    elif not self.checkAutorisation(req):
+                        conn.send(self.getLoginPage())
+                    else:
+                        requestType = self.__getRequestType(req)
+                        if requestType == RequestType.REQUEST_GET_INDEX_PAGE:
+                            conn.send(self.getIndexPage())
                 else:
-                    requestType = self.__getRequestType(req)
-                    if requestType == RequestType.REQUEST_GET_INDEX_PAGE:
-                        conn.send(self.getIndexPage())
-                conn.close()
-            except IOError:
-                print "IO error"
-                conn.close()
-        conn.close()
+                    break
+            conn.close()
 
     def checkAutorisation(self, req):
         pos = req.find(HTTP_BA_TAG)
