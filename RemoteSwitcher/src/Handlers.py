@@ -45,7 +45,7 @@ class HttpRequestHandler(Thread):
         sock.listen(5)
         while True:
             conn, addr = sock.accept()
-            conn.setblocking(False)
+            #conn.setblocking(False)
             while True:
                 ready = select.select([conn], [], [], 1)
                 if ready[0]:

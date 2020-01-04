@@ -1,4 +1,4 @@
-# RemoteSwitcher
+# R-140 RemoteSwitcher
 Удаленное управление усилителем мощности Р-140 с блоком БМЗ
 
 Этот проект разрабатывался в IDE JetBrains PyCharm Community Edition 2017.3.3
