@@ -1,4 +1,4 @@
-import sys
+import logging
 import select
 from threading import Thread, Lock
 from GPIOController import GPIOController, REQUEST, GET_GPIO_STATE, CHANGE_GPIO_STATE, NAME, CHANGE_BMZ, BMZ_NUMBER
@@ -12,6 +12,8 @@ from eventlet import wsgi
 from eventlet import websocket
 
 import os
+
+log = logging.getLogger('root')
 
 class RequestType:
     REQUEST_IS_UNKNOWN = 0
@@ -51,6 +53,7 @@ class HttpRequestHandler(Thread):
                 if ready[0]:
                     req = conn.recv(1024)
                     if not req:
+                        log.debug('req is empty')
                         break
                     elif not self.checkAutorisation(req):
                         conn.sendall(self.getLoginPage())
@@ -71,6 +74,10 @@ class HttpRequestHandler(Thread):
         endPair = pairBase64.find('\r\n')
         pairBase64 = pairBase64[:endPair]
         pair = base64.b64decode(pairBase64).decode('utf-8')
+        if len(pair)==1:
+            log.critical('user name data is empty')
+            return False
+        log.info('Check autirisation for %s', pair)
         return self.__users.checkUser(pair)
 
     def getIndexPage(self):
@@ -98,9 +105,9 @@ def handle(ws):
     while True:
         m = ws.wait()
         if m is None:
-            print ("WebSocket client is disconected!")
+            log.debug("WebSocket client is disconected!")
             break
-        print(m);
+        #log.debug(m)
         jsonReq = json.loads(m)
         request = jsonReq[REQUEST]
         if request == GET_GPIO_STATE:

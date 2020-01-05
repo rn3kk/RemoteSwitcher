@@ -1,3 +1,6 @@
+import logging
+
+log = logging.getLogger('root')
 class Users:
     __userList = None
 
@@ -16,4 +19,8 @@ class Users:
             if el == pair:
                 result = True
                 break
+        if result is True:
+            log.info('Loggin is OK')
+        else:
+            log.critical('Fail login')
         return result

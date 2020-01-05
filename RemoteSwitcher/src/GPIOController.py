@@ -1,4 +1,5 @@
 import json
+import logging
 import time
 from enum import Enum
 
@@ -26,6 +27,8 @@ REQUEST_RESULT = "result"
 TRUE = "true"
 FALSE = "false"
 BMZ = "bmz"
+
+log = logging.getLogger('root')
 
 class PinType(Enum):
     INPUT = 1
@@ -100,7 +103,7 @@ class OutputPin(Pin):
             return super(OutputPin, self).getPinState()
 
     def setPinState(self, state):
-        print('old state ',  self.getPinState(), ' new state ', state)
+        log.debug('old state %s new state %s',  self.getPinState(), state)
         self.__timeLeft = 1
         self. __setState(state)
 
@@ -116,9 +119,9 @@ class OutputPin(Pin):
             else:
                 self._pinState = state
             GPIO.output(int(self._pinNumber), self._pinState)
-            print('New statete for OutputPin ', self.getPinName(), 'number ', self.getPinNumber(), 'sate ', self.getPinState() )
+            log.debug('New statete for OutputPin %s number %s state %s', self.getPinName(), self.getPinNumber(), self.getPinState() )
         except Exception:
-            print('Error: output pin state NOT changed')
+            log.critical('Error: output pin state NOT changed')
 
     def updateAutoOffstate(self, checkInterval):
         if self.__autoOffTime == 0:
@@ -130,8 +133,7 @@ class OutputPin(Pin):
             self.__timeLeft = 0
         else:
             self.__timeLeft += checkInterval
-            print('Auto change state OutputPin ', self.getPinName(), 'number ', self.getPinNumber(), 'sate ',
-                  self.getPinState(), 'time ', self.__timeLeft)
+            log.debug('Auto change state OutputPin %s number %s state %s time %s', self.getPinName(), self.getPinNumber(), self.getPinState(), self.__timeLeft)
 
 class GPIOController(Thread):
     __instance = None
@@ -147,7 +149,7 @@ class GPIOController(Thread):
 
     def __init__(self):
         Thread.__init__(self)
-        print("Load pins from file ../res/pins")
+        log.debug("Load pins from file ../res/pins")
         self.__outputPinsList = list()
         self.__inputPinsList = list()
         filePins = open("/home/pi/RemoteSwitcher//RemoteSwitcher/res/pins")
@@ -269,7 +271,7 @@ class Bmz:
         bitfield = list(bin(activeBMZ))[2:]
         for x in range(4-len(bitfield)):
             bitfield = [0] + bitfield
-        print(bitfield)
+        log.debug(bitfield)
         self.__pin0.setPinState(int(bitfield[0]))
         self.__pin1.setPinState(int(bitfield[1]))
         self.__pin2.setPinState(int(bitfield[2]))

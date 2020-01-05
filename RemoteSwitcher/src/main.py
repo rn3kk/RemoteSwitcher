@@ -1,3 +1,6 @@
+import os
+import logging
+from logging.handlers import RotatingFileHandler
 from Handlers import HttpRequestHandler
 from Handlers import WebSocketHandler
 from GPIOController import GPIOController
@@ -14,7 +17,6 @@ class App:
         gpioController = GPIOController.getInstance()
         gpioController.setName('controller')
 
-
         self.__httpIndexHandler = HttpRequestHandler()
         self.__httpIndexHandler.setName('index handler')
         self.__webSocketHandler = WebSocketHandler();
@@ -30,4 +32,20 @@ class App:
 
 
 if __name__ == '__main__':
-     App().run()
+    log_name = '/var/log/remoteswitcher/all.log'
+    #log_name = 'C:\\tmp\\log.log'
+    directory = os.path.dirname(log_name)
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+
+    log = logging.getLogger('root')
+    log.setLevel(logging.DEBUG)
+    file_logger = logging.FileHandler(log_name)
+    file_logger.setLevel(logging.DEBUG)
+    formatter = logging.Formatter(
+        '%(asctime)s module:%(module)s lineno:%(lineno)d|%(message)s')
+    file_logger.setFormatter(formatter)
+    log.addHandler(file_logger)
+    log.propagate = True
+    log.info('*****4*****Started**********')
+    App().run()

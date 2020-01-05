@@ -1,0 +1,12 @@
+class ipCounterMap:
+    ip = None
+    count = None
+    def __init__(self, ip):
+        self.ip = ip
+
+    def increment(self):
+        self.count = self.__count + 1
+
+class IpFilter:
+    __fullIpList = None #from file
+    __counterIpList = None #считаем неудавшиеся попытки авторизоваться с этого ip
