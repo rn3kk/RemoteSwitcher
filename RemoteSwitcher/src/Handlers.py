@@ -1,5 +1,6 @@
 import logging
 import select
+import time
 from threading import Thread, Lock
 from GPIOController import GPIOController, REQUEST, GET_GPIO_STATE, CHANGE_GPIO_STATE, NAME, CHANGE_BMZ, BMZ_NUMBER
 import socket
@@ -46,7 +47,9 @@ class HttpRequestHandler(Thread):
         sock.bind(('', port))
         sock.listen(5)
         while True:
+            log.debug('socke start accept')
             conn, addr = sock.accept()
+            log.debug('socket accept is OK,have connection from %s', addr )
             #conn.setblocking(False)
             while True:
                 ready = select.select([conn], [], [], 1)
@@ -59,11 +62,16 @@ class HttpRequestHandler(Thread):
                         conn.sendall(self.getLoginPage())
                     else:
                         requestType = self.__getRequestType(req)
+                        log.debug('receive request type %s', requestType)
                         if requestType == RequestType.REQUEST_GET_INDEX_PAGE:
                             conn.sendall(self.getIndexPage())
                 else:
+                    log.debug('not ready for send data to socket')
                     break
+            log.debug('next close connection')
             conn.close()
+            log.debug('connection closed')
+            time.sleep(1)
 
     def checkAutorisation(self, req):
         pos = req.find(HTTP_BA_TAG)
