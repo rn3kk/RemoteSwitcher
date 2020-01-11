@@ -52,7 +52,9 @@ class HttpRequestHandler(Thread):
             log.debug('socket accept is OK,have connection from %s', addr )
             #conn.setblocking(False)
             while True:
+                log.debug("Read state")
                 ready = select.select([conn], [], [], 1)
+                log.debug("State is %s", ready)
                 if ready[0]:
                     req = conn.recv(1024)
                     if not req:
