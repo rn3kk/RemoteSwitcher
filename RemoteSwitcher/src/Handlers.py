@@ -44,6 +44,7 @@ class HttpRequestHandler(Thread):
         self.__users = Users()
         port = 80
         sock = socket.socket()
+        sock.settimeout(1)
         sock.bind(('', port))
         sock.listen(5)
         while True:
@@ -56,11 +57,17 @@ class HttpRequestHandler(Thread):
                 ready = select.select([conn], [], [], 1)
                 log.debug("State is %s", ready)
                 if ready[0]:
-                    req = conn.recv(1024)
+                    try:
+                        req = conn.recv(1024)  # try to receive 100 bytes
+                    except socket.timeout:  # fail after 1 second of no activity
+                        print("Didn't receive data! [Timeout]")
+                        break
+
                     if not req:
                         log.debug('req is empty')
                         break
                     elif not self.checkAutorisation(req):
+                        log.debug('write login page to socket')
                         conn.sendall(self.getLoginPage())
                     else:
                         requestType = self.__getRequestType(req)
