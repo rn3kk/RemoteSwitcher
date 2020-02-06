@@ -44,7 +44,7 @@ class HttpRequestHandler(Thread):
     def run(self):
         self.__users = Users()
         port = 80
-        sock = socket.socket()
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         sock.bind(('', port))
         sock.listen(5)
         while True:
@@ -73,6 +73,9 @@ class HttpRequestHandler(Thread):
 	        	log.debug('start write login page to socket')
     		        conn.sendall(self.getIndexPage())
             		log.debug('index page is writen to socket')
+	    except Exception, e:
+		print e
+		log.error(e)
 	    finally:
 		    conn.close()
 		    time.sleep(3)
