@@ -25,6 +25,7 @@ class RequestType:
     REQUEST_LOGIN_PAGE = 5
     AUTORISATION = 6
 
+REQUEST_PARAM="GET /xbrg3tesskdei393993dndai7"
 SEC_WEBSOCKET_KEY = "Sec-WebSocket-Key:"
 SEC_KEY_SUFFIX = "258EAFA5-E914-47DA-95CA-C5AB0DC85B11"
 SEC_WEBSOCKET_EXTENSION = "Sec-WebSocket-Extensions"
@@ -44,43 +45,43 @@ class HttpRequestHandler(Thread):
         self.__users = Users()
         port = 80
         sock = socket.socket()
-        sock.settimeout(1)
         sock.bind(('', port))
         sock.listen(5)
         while True:
             log.debug('socke start accept')
             conn, addr = sock.accept()
             log.debug('socket accept is OK,have connection from %s', addr )
-            #conn.setblocking(False)
-            while True:
-                log.debug("Read state")
-                ready = select.select([conn], [], [], 1)
-                log.debug("State is %s", ready)
-                if ready[0]:
-                    try:
-                        req = conn.recv(1024)  # try to receive 100 bytes
-                    except socket.timeout:  # fail after 1 second of no activity
-                        print("Didn't receive data! [Timeout]")
-                        break
-
-                    if not req:
-                        log.debug('req is empty')
-                        break
-                    elif not self.checkAutorisation(req):
-                        log.debug('write login page to socket')
-                        conn.sendall(self.getLoginPage())
-                    else:
-                        requestType = self.__getRequestType(req)
-                        log.debug('receive request type %s', requestType)
-                        if requestType == RequestType.REQUEST_GET_INDEX_PAGE:
-                            conn.sendall(self.getIndexPage())
+	    try:
+		log.debug('run receive data')
+                conn.settimeout(3)
+                req = conn.recv(1024)  # try to receive 100 bytes
+		log.debug(req)
+		print req
+                log.debug('end receive data')
+                if not req:
+	            log.debug('req is empty')
+		elif self.checkRequestParam(req) == 0:
+		    log.error('req is bad')
+    	        elif not self.checkAutorisation(req):
+        	        log.debug('write login page to socket')
+			conn.sendall(self.getLoginPage())
+            		log.debug('login page is writen')
                 else:
-                    log.debug('not ready for send data to socket')
-                    break
-            log.debug('next close connection')
-            conn.close()
-            log.debug('connection closed')
-            time.sleep(1)
+	            requestType = self.__getRequestType(req)
+    	            log.debug('receive request type %s', requestType)
+        	    if requestType == RequestType.REQUEST_GET_INDEX_PAGE:
+	        	log.debug('start write login page to socket')
+    		        conn.sendall(self.getIndexPage())
+            		log.debug('index page is writen to socket')
+	    finally:
+		    conn.close()
+		    time.sleep(3)
+
+    def checkRequestParam(self, request):
+	if REQUEST_PARAM in request:
+	    return bool(1)
+	else:
+	    return bool(0)
 
     def checkAutorisation(self, req):
         pos = req.find(HTTP_BA_TAG)
@@ -111,7 +112,7 @@ class HttpRequestHandler(Thread):
         return HTTP_RESPONSE_UNAUTORISE
 
     def __getRequestType(self, request):
-        if "GET /" in request:
+        if self.checkRequestParam(request) == 1:
             return RequestType.REQUEST_GET_INDEX_PAGE
 
 def sendToWs(ws, text):
@@ -139,14 +140,16 @@ def handle(ws):
             response = GPIOController.getInstance().changeBmz(bmzNum)
             sendToWs(ws, response)
 
+@websocket.WebSocketWSGI
+def handleBadRequest(ws):
+    ws.send(HTTP_RESPONSE)
+
+
 def dispatch(environ, start_response):
     if environ['PATH_INFO'] == '/data':
         return handle(environ, start_response)
     else:
-        start_response('200 OK', [('content-type', 'text/html')])
-        return [open(os.path.join(
-            os.path.dirname(__file__),
-            'websocket.html')).read()]
+	return handleBadRequest(environ, start_response)
 
 
 class WebSocketHandler(Thread):
