@@ -1,17 +1,20 @@
 import os
 import logging
-from logging.handlers import RotatingFileHandler
 from Handlers import HttpRequestHandler
 from Handlers import WebSocketHandler
 from GPIOController import GPIOController
+from Flex6xxx import Flex6xxx
 
 class App:
     __httpIndexHandler = None
     __webSocketHandler = None
 
     def run(self):
-        print "Start server"
-        self.__runHandlers()
+        print("Start server")
+        flexRadio = Flex6xxx()
+        flexRadio.start()
+        flexRadio.join()
+        #self.__runHandlers()
 
     def __runHandlers(self):
         gpioController = GPIOController.getInstance()
@@ -32,8 +35,8 @@ class App:
 
 
 if __name__ == '__main__':
-    log_name = '/var/log/remoteswitcher/all.log'
-    #log_name = 'C:\\tmp\\log.log'
+    #log_name = '/var/log/remoteswitcher/all.log'
+    log_name = 'C:\\tmp\\log.log'
     directory = os.path.dirname(log_name)
     if not os.path.exists(directory):
         os.makedirs(directory)

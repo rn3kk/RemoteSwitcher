@@ -1,7 +1,6 @@
 import logging
-import select
 import time
-from threading import Thread, Lock
+from threading import Thread
 from GPIOController import GPIOController, REQUEST, GET_GPIO_STATE, CHANGE_GPIO_STATE, NAME, CHANGE_BMZ, BMZ_NUMBER
 import socket
 import json
@@ -9,10 +8,7 @@ import base64
 from Users import Users
 
 import eventlet
-from eventlet import wsgi
-from eventlet import websocket
-
-import os
+from eventlet import wsgi, websocket
 
 log = logging.getLogger('root')
 
@@ -51,40 +47,40 @@ class HttpRequestHandler(Thread):
             log.debug('socke start accept')
             conn, addr = sock.accept()
             log.debug('socket accept is OK,have connection from %s', addr )
-	    try:
-		log.debug('run receive data')
+            try:
+                log.debug('run receive data')
                 conn.settimeout(3)
                 req = conn.recv(1024)  # try to receive 100 bytes
-		log.debug(req)
-		print req
+                log.debug(req)
+                print(req)
                 log.debug('end receive data')
                 if not req:
-	            log.debug('req is empty')
-		elif self.checkRequestParam(req) == 0:
-		    log.error('req is bad')
-    	        elif not self.checkAutorisation(req):
-        	        log.debug('write login page to socket')
-			conn.sendall(self.getLoginPage())
-            		log.debug('login page is writen')
+                    log.debug('req is empty')
+                elif self.checkRequestParam(req) == 0:
+                    log.error('req is bad')
+                elif not self.checkAutorisation(req):
+                    log.debug('write login page to socket')
+                    conn.sendall(self.getLoginPage())
+                    log.debug('login page is writen')
                 else:
-	            requestType = self.__getRequestType(req)
-    	            log.debug('receive request type %s', requestType)
-        	    if requestType == RequestType.REQUEST_GET_INDEX_PAGE:
-	        	log.debug('start write login page to socket')
-    		        conn.sendall(self.getIndexPage())
-            		log.debug('index page is writen to socket')
-	    except Exception, e:
-		print e
-		log.error(e)
-	    finally:
-		    conn.close()
-		    time.sleep(3)
+                    requestType = self.__getRequestType(req)
+                    log.debug('receive request type %s', requestType)
+                    if requestType == RequestType.REQUEST_GET_INDEX_PAGE:
+                        log.debug('start write login page to socket')
+                        conn.sendall(self.getIndexPage())
+                        log.debug('index page is writen to socket')
+            except Exception as e:
+                print(e)
+                log.error(e)
+            finally:
+                conn.close()
+                time.sleep(3)
 
     def checkRequestParam(self, request):
-	if REQUEST_PARAM in request:
-	    return bool(1)
-	else:
-	    return bool(0)
+        if REQUEST_PARAM in request:
+            return bool(1)
+        else:
+            return bool(0)
 
     def checkAutorisation(self, req):
         pos = req.find(HTTP_BA_TAG)
@@ -102,17 +98,17 @@ class HttpRequestHandler(Thread):
         return self.__users.checkUser(pair)
 
     def getIndexPage(self):
-        file = open("/home/pi/RemoteSwitcher/RemoteSwitcher/res/index.html")
-        #file = open("../res/index.html")
+        #file = open("/home/pi/RemoteSwitcher/RemoteSwitcher/res/index.html")
+        file = open("../res/index.html")
         data = file.read()
         file.close()
         content_length = len(data)
         page = (HTTP_RESPONSE % content_length)
         page = page + data
-        return page
+        return page.encode('utf-8')
 
     def getLoginPage(self):
-        return HTTP_RESPONSE_UNAUTORISE
+        return HTTP_RESPONSE_UNAUTORISE.encode('utf-8')
 
     def __getRequestType(self, request):
         if self.checkRequestParam(request) == 1:
@@ -152,7 +148,7 @@ def dispatch(environ, start_response):
     if environ['PATH_INFO'] == '/data':
         return handle(environ, start_response)
     else:
-	return handleBadRequest(environ, start_response)
+        return handleBadRequest(environ, start_response)
 
 
 class WebSocketHandler(Thread):
