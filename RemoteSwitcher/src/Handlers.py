@@ -84,6 +84,7 @@ class HttpRequestHandler(Thread):
 	if REQUEST_PARAM in request:
 	    return bool(1)
 	else:
+	    time.sleep(30)
 	    return bool(0)
 
     def checkAutorisation(self, req):
@@ -99,7 +100,11 @@ class HttpRequestHandler(Thread):
             log.critical('user name data is empty')
             return False
         log.info('Check autirisation for %s', pair)
-        return self.__users.checkUser(pair)
+        if self.__users.checkUser(pair) == 1:
+            return bool(1)
+        else:
+            time.sleep(60)
+            return bool(0)
 
     def getIndexPage(self):
         file = open("/home/pi/RemoteSwitcher/RemoteSwitcher/res/index.html")
